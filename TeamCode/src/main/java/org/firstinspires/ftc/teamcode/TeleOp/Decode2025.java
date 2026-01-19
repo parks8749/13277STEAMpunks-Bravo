@@ -31,8 +31,8 @@ public class Decode2025 extends LinearOpMode {
 
         driveTrain = new DriveTrain(
                 hardwareMap,
-                "fL", "bL",
-                "fR", "bR"
+                "leftFront", "leftBack",
+                "rightFront", "rightBack"
         );
 
         backBottom = new BackBottom(
@@ -110,8 +110,6 @@ public class Decode2025 extends LinearOpMode {
             frontIntake.update(beltsMode, gamepad2.a);
 
             telemetry.addData("Front Intake Active", frontActive);
-
-            flyWheels.publishTelemetry(telemetry);
 
             telemetry.update();
 

@@ -38,7 +38,7 @@ public class Driver extends DriveTrain
      */
     public Driver(LinearOpMode opMode, HardwareMap map)
     {
-        super(map, "fL", "bL", "fR", "bR");
+        super(map, "leftFront", "leftBack", "rightFront", "rightBack");
         this.opMode = opMode;
 
         // KEEP DIRECTIONS EXACTLY AS YOU HAD THEM
