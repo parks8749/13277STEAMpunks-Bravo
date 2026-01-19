@@ -105,6 +105,9 @@ public class Decode2025 extends LinearOpMode {
                     overrideAll
             );
 
+            if (gamepad2.dpad_up)   flyWheels.adjustTargetRPM(25);
+            if (gamepad2.dpad_down) flyWheels.adjustTargetRPM(-25);
+
 
             belts.update(rightStick, gamepad2.a);
             frontIntake.update(beltsMode, gamepad2.a);
@@ -112,6 +115,8 @@ public class Decode2025 extends LinearOpMode {
             telemetry.addData("Front Intake Active", frontActive);
 
             telemetry.update();
+
+            flyWheels.publishTelemetry(telemetry);
 
             sleep(10);
         }
