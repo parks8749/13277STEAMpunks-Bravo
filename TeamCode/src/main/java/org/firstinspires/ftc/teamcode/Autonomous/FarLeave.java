@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@Autonomous(name="Leave", group="Autonomous")
-public class Leave extends LinearOpMode
+@Autonomous(name="FarLeave", group="Autonomous")
+public class FarLeave extends LinearOpMode
 {
     Driver driver;
     public CRServo backBottom;
