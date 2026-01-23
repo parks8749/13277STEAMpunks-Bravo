@@ -40,17 +40,26 @@ public class TestingOdometryAuto extends LinearOpMode {
         frontIntake = hardwareMap.get(CRServo.class, "FrontIntake");
 
 
-        Pose2d beginPose = new Pose2d(new Vector2d(-53, -47), Math.toRadians(180)); // -53, -47, 79.5
+        Pose2d beginPose = new Pose2d(new Vector2d(-53, -47), Math.toRadians(233)); // -53, -47, 79.5
         MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
 
         waitForStart();
 
         // --- Create the Trajectory Action ---
         Action path = drive.actionBuilder(beginPose)
-                .lineToY(-70)
-                .strafeToLinearHeading(new Vector2d(-82,-90), Math.toRadians(118))
-                .stopAndAdd(intakeStack())
-                .lineToY(-50)
+
+                .strafeTo(new Vector2d(-46,-39))
+                .splineToLinearHeading(new Pose2d(-11.5,-26, Math.toRadians(270)), Math.toRadians(270))
+
+
+
+
+
+//                  This code works as intended for the actual robot.
+//                .lineToY(-70)
+//                .strafeToLinearHeading(new Vector2d(-82,-90), Math.toRadians(118))
+//                .stopAndAdd(intakeStack())
+//                .lineToY(-50)
 
 
 
