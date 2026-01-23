@@ -105,8 +105,8 @@ public class Decode2025 extends LinearOpMode {
                     overrideAll
             );
 
-//            if (gamepad2.dpad_up)   flyWheels.adjustTargetRPM(1);
-//            if (gamepad2.dpad_down) flyWheels.adjustTargetRPM(-1);
+            if (gamepad2.dpad_up)   flyWheels.adjustTargetRPM(1);
+            if (gamepad2.dpad_down) flyWheels.adjustTargetRPM(-1);
 
 
             belts.update(rightStick, gamepad2.a);
