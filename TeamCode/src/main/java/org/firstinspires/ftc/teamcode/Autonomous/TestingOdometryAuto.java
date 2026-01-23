@@ -40,7 +40,7 @@ public class TestingOdometryAuto extends LinearOpMode {
         frontIntake = hardwareMap.get(CRServo.class, "FrontIntake");
 
 
-        Pose2d beginPose = new Pose2d(new Vector2d(-53, -47), Math.toRadians(233)); // -53, -47, 79.5
+        Pose2d beginPose = new Pose2d(new Vector2d(-53, -47), Math.toRadians(234)); // -53, -47, 79.5
         MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
 
         waitForStart();
