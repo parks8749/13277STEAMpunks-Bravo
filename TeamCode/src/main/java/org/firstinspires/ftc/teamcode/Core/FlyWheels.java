@@ -80,25 +80,30 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class FlyWheels {
 
-    private final DcMotor leftFly;
-    private final DcMotor rightFly;
+    private DcMotor leftFly;
+    private DcMotor rightFly;
 
     // optional enhanced interface (may be null on some hardware)
     private final DcMotorEx leftFlyEx;
     private final DcMotorEx rightFlyEx;
 
     // default (current) operating power
-    private static final double DEFAULT_POWER = 0.85;
+    private static final double DEFAULT_POWER = 1.0;
     // full power when X is pressed
     private static final double FULL_POWER = 1.0;
 
-    private static final double TICKS_PER_REV = 28.0;
-    private double targetRPM = 1400.0; // can change to diff. values we want to test
+    private static final double TICKS_PER_REV = 103.8;
+    private double targetRPMnear = 1400; // can change to diff. values we want to test
+
+    private double targetRPM = 1350;
+
+    private double maxRPM = 1700;
+
 
     private static final double kP = 0.0015;
     private static final double kI = 0.0;
     private static final double kD = 0.0001;
-    private double kF = 0.0;
+    private double kF = 32767 / 2900;
 
     private boolean velocityMode = false;
 
@@ -110,6 +115,7 @@ public class FlyWheels {
     private int lastRightPos = 0;
     private long lastTimeMs = 0;
     private final ElapsedTime clock = new ElapsedTime();
+
 
     public FlyWheels(DcMotor leftFly, DcMotor rightFly) {
         this.leftFly  = leftFly;
@@ -123,8 +129,8 @@ public class FlyWheels {
 
     public void init() {
         // set directions so same positive power spins the wheels in the shooting direction
-        leftFly.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightFly.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftFly.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightFly.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // use RUN_USING_ENCODER so the hub returns velocity measurements
         leftFly.setMode(RunMode.RUN_USING_ENCODER);
@@ -142,7 +148,6 @@ public class FlyWheels {
         lastTimeMs = System.currentTimeMillis();
         clock.reset();
 
-        double maxRPM = 1620.0; // we can adjust this once we find what our max is
         double maxTicksPerSec = (maxRPM * TICKS_PER_REV) / 60.0;
         kF = 32767.0 / maxTicksPerSec;
 
@@ -160,46 +165,50 @@ public class FlyWheels {
      */
     public void update(boolean rightBumper, boolean leftBumper, boolean xPressed, boolean overrideY) {
 
-        // Highest-priority: X forces FULL power
         if (xPressed) {
-            velocityMode = false;
-            leftFly.setPower(-FULL_POWER);
-            rightFly.setPower(-FULL_POWER);
+            motorSpinOut();
+            spinTargetRPM(maxRPM);
             return;
         }
 
         // Next priority: global Y override (keeps previous behavior but at DEFAULT_POWER)
         if (overrideY) {
-            velocityMode = false;
-            leftFly.setPower(-DEFAULT_POWER);
-            rightFly.setPower(-DEFAULT_POWER);
+            motorSpinOut();
+            spinTargetRPM(targetRPM);
             return;
         }
 
-        // Normal bumper-driven control (existing-style)
-//        if (rightBumper) {
-//            leftFly.setPower(-DEFAULT_POWER);
-//            rightFly.setPower(-DEFAULT_POWER);
-//        } else if (leftBumper) {
-//            leftFly.setPower(DEFAULT_POWER);
-//            rightFly.setPower(DEFAULT_POWER);
-//        } else {
-//            leftFly.setPower(0.0);
-//            rightFly.setPower(0.0);
-//        }
-
+//         Normal bumper-driven control (existing-style)
         if (rightBumper) {
-            velocityMode = true;
-            double targetTicks = rpmToTicks(targetRPM);
-
-            if (leftFlyEx != null && rightFlyEx != null) {
-                leftFlyEx.setVelocity(targetTicks);
-                rightFlyEx.setVelocity(targetTicks);
-            }
-            return;
+            motorSpinOut();
+            spinTargetRPM(targetRPM);
+        } else if (leftBumper) {
+            motorSpinIn();
+            spinTargetRPM(targetRPM);
+        } else {
+            leftFly.setPower(0.0);
+            rightFly.setPower(0.0);
         }
     }
 
+    public void motorSpinOut(){
+        this.leftFly.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFly.setDirection(DcMotorSimple.Direction.FORWARD);
+    }
+
+    public void motorSpinIn(){
+        this.leftFly.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightFly.setDirection(DcMotorSimple.Direction.REVERSE);
+    }
+
+    public void spinTargetRPM(double targetRPM){
+        double targetTicks = rpmToTicks(targetRPM);
+
+        if (leftFlyEx != null && rightFlyEx != null) {
+            leftFlyEx.setVelocity(targetTicks);
+            rightFlyEx.setVelocity(targetTicks);
+        }
+    }
     public void stop() {
         leftFly.setPower(0.0);
         rightFly.setPower(0.0);
@@ -236,8 +245,8 @@ public class FlyWheels {
         }
 
         // get ticks-per-rev from the configured motor type (works even if unspecified)
-        double leftTicksPerRev  = leftFly.getMotorType().getTicksPerRev();
-        double rightTicksPerRev = rightFly.getMotorType().getTicksPerRev();
+        double leftTicksPerRev  =103.8;
+        double rightTicksPerRev = 103.8;
 
         // avoid divide-by-zero if something is misconfigured
         if (leftTicksPerRev <= 0.0) leftTicksPerRev = 1.0;
@@ -258,6 +267,8 @@ public class FlyWheels {
         telemetry.addData("FlyRight(RPM)", String.format("%.1f", rightRPM));
         telemetry.addData("FlyRight(ticks/s)", String.format("%.0f", rightTicksPerSec));
         telemetry.addData("FlyRight (Max)", String.format("%.0f", rightMaxVelocity));
+
+        telemetry.addData("Target RPM", String.format("%.0f", targetRPM));
     }
 
     private double rpmToTicks(double rpm){
