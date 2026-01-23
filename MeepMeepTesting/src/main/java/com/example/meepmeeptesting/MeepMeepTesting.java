@@ -17,12 +17,25 @@ public class MeepMeepTesting {
 
 
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-53, -47, Math.toRadians(234))) // -53, -47, 79.5
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-53, -47, Math.toRadians(234)))
                 .strafeTo(new Vector2d(-46,-39))
+                //shoot pre-loaded artifacts
                 .splineToLinearHeading(new Pose2d(-11.5,-26, Math.toRadians(270)), Math.toRadians(270))
-                .strafeTo(new Vector2d(-11.5,-55))
+                .strafeTo(new Vector2d(-11.5,-52))
                 .strafeTo(new Vector2d(-11.5,-26))
                 .splineToLinearHeading(new Pose2d(-45.9,-41.3, Math.toRadians(233)), Math.toRadians(270))
+                // shoot the artifacts
+                .strafeToLinearHeading(new Vector2d(12, -26), Math.toRadians(270))
+                .strafeTo(new Vector2d(12,-52))
+                .strafeTo(new Vector2d(12,-26))
+                .splineToLinearHeading(new Pose2d(-45.9,-41.3, Math.toRadians(233)), Math.toRadians(270))
+                // shoot the artifacts
+                .strafeToLinearHeading(new Vector2d(35.5, -26), Math.toRadians(270))
+                .strafeTo(new Vector2d(35.5,-52))
+                .strafeTo(new Vector2d(35.5,-26))
+                .splineToLinearHeading(new Pose2d(-45.9,-41.3, Math.toRadians(233)), Math.toRadians(270))
+
+
                 .strafeTo(new Vector2d(-23,-46))
                 .build());
 

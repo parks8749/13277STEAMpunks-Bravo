@@ -15,8 +15,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
-@Autonomous(name = "TestingOdometryAuto")
-public class TestingOdometryAuto extends LinearOpMode {
+@Autonomous(name = "BlueOdometryAuto")
+public class BlueOdometryAuto extends LinearOpMode {
 
     public CRServo backBottom;
     public CRServo backIntake;
@@ -40,63 +40,51 @@ public class TestingOdometryAuto extends LinearOpMode {
         frontIntake = hardwareMap.get(CRServo.class, "FrontIntake");
 
 
-        Pose2d beginPose = new Pose2d(new Vector2d(-53, -47), Math.toRadians(234)); // -53, -47, 79.5
+        Pose2d beginPose = new Pose2d(new Vector2d(-53, -47), Math.toRadians(234));
         MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
 
         waitForStart();
 
         // --- Create the Trajectory Action ---
         Action path = drive.actionBuilder(beginPose)
-
                 .strafeTo(new Vector2d(-46,-39))
+                .stopAndAdd(shootBackIntake())
+                .waitSeconds(2)
+                .stopAndAdd(shootFrontIntake())
+                .waitSeconds(4)
+                .stopAndAdd(stopAll())
+
                 .splineToLinearHeading(new Pose2d(-11.5,-26, Math.toRadians(270)), Math.toRadians(270))
+                .stopAndAdd(intakeStack())
+                .lineToY(-55)
+                .lineToY(-26)
+                .stopAndAdd(stopIntake())
+                .splineToLinearHeading(new Pose2d(-45.9,-41.3, Math.toRadians(233)), Math.toRadians(270))
+                .stopAndAdd(shootFrontIntake())
+                .waitSeconds(3)
+                .stopAndAdd(stopAll())
 
+                .strafeToLinearHeading(new Vector2d(12, -29), Math.toRadians(270))
+                .stopAndAdd(intakeStack())
+                .strafeTo(new Vector2d(12,-52))
+                .strafeTo(new Vector2d(12,-26))
+                .stopAndAdd(stopIntake())
+                .splineToLinearHeading(new Pose2d(-45.9,-41.3, Math.toRadians(233)), Math.toRadians(270))
+                .stopAndAdd(shootFrontIntake())
+                .waitSeconds(3)
+                .stopAndAdd(stopAll())
 
+                .strafeToLinearHeading(new Vector2d(35.5, -26), Math.toRadians(270))
+                .stopAndAdd(intakeStack())
+                .strafeTo(new Vector2d(35.5,-52))
+                .strafeTo(new Vector2d(35.5,-26))
+                .stopAndAdd(stopIntake())
+                .splineToLinearHeading(new Pose2d(-45.9,-41.3, Math.toRadians(233)), Math.toRadians(270))
+                .stopAndAdd(shootFrontIntake())
+                .waitSeconds(3)
+                .stopAndAdd(stopAll())
 
-
-
-//                  This code works as intended for the actual robot.
-//                .lineToY(-70)
-//                .strafeToLinearHeading(new Vector2d(-82,-90), Math.toRadians(118))
-//                .stopAndAdd(intakeStack())
-//                .lineToY(-50)
-
-
-
-//                .stopAndAdd(shootBackIntake())
-//                .waitSeconds(2.0)
-//                .stopAndAdd(shootFrontIntake())
-//                .waitSeconds(4.0)
-//                .stopAndAdd(stopAll())
-
-
-
-
-
-
-//                .splineToLinearHeading(new Pose2d(-11.5,-27, Math.toRadians(270)), Math.toRadians(270))
-////                .lineToXSplineHeading(-12,270)
-////                .strafeTo(new Vector2d(-50 + 38, -33)) // for first row (PPG)
-////                .lineToY(beginPose.position.y - 23)
-//                .stopAndAdd(intakeStack())
-//                .lineToY(-55)
-////                .lineToY(beginPose.position.y + 23)
-//                .stopAndAdd(stopIntake()) // Stop intake
-//                .lineToY(-25)
-//                // 5. RETURN TO SHOOT
-////                .lineToX(beginPose.position.x - 27)
-////                .strafeTo(new Vector2d(-50, 50))
-////                .turn(Math.toRadians(90))
-////                .lineToX(beginPose.position.x - 10)
-//                .splineToLinearHeading(new Pose2d(-48,-38, Math.toDegrees(31)), Math.toRadians(90))
-//                .stopAndAdd(shootFrontIntake())
-//                .waitSeconds(3.0)
-//                .stopAndAdd(stopAll())
-//                // 6. LEAVE
-////                .turn(Math.toRadians(-90))
-////                .strafeTo(new Vector2d(-50 + 28, 50))
-//
-//                .splineToConstantHeading(new Vector2d(-22,-46), Math.toRadians(30))
+                .strafeTo(new Vector2d(-23,-46))
                 .build();
 
         Actions.runBlocking(new SequentialAction(path));
