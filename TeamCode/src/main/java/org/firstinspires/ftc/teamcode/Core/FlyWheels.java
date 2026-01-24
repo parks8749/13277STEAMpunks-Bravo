@@ -95,7 +95,7 @@ public class FlyWheels {
     private static final double TICKS_PER_REV = 103.8;
     private double targetRPMnear = 1400; // can change to diff. values we want to test
 
-    private double targetRPM = 1350;
+    private double targetRPM = 950; //1350
 
     private double maxRPM = 1700;
 
