@@ -15,8 +15,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
-@Autonomous(name = "BlueOdometryAuto")
-public class BlueOdometryAuto extends LinearOpMode {
+@Autonomous(name = "RedOdometryAuto")
+public class RedOdometryAuto extends LinearOpMode {
 
     public CRServo backBottom;
     public CRServo backIntake;
@@ -40,40 +40,40 @@ public class BlueOdometryAuto extends LinearOpMode {
         frontIntake = hardwareMap.get(CRServo.class, "FrontIntake");
 
 
-        Pose2d beginPose = new Pose2d(new Vector2d(-53, -47), Math.toRadians(232));
+        Pose2d beginPose = new Pose2d(new Vector2d(-53, -47), Math.toRadians(135));
         MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
 
         waitForStart();
 
         // --- Create the Trajectory Action ---
         Action path = drive.actionBuilder(beginPose)
-                .strafeTo(new Vector2d(-46,-39))
+                .strafeTo(new Vector2d(-46,39))
                 .stopAndAdd(shootBackIntake())
                 .waitSeconds(1)
                 .stopAndAdd(shootFrontIntake())
                 .waitSeconds(4.5)
                 .stopAndAdd(stopAll())
 
-                .strafeToLinearHeading(new Vector2d(-11.5,-26), Math.toRadians(274))
+                .strafeToLinearHeading(new Vector2d(-11.5,26), Math.toRadians(94))
                 .stopAndAdd(intakeStack())
-                .strafeTo(new Vector2d(-11.5,-55))
-                .strafeToLinearHeading(new Vector2d(-46,-39), Math.toRadians(232))
+                .strafeTo(new Vector2d(-11.5,55))
+                .strafeToLinearHeading(new Vector2d(-46,39), Math.toRadians(135))
 
                 .stopAndAdd(shootFrontIntake())
                 .waitSeconds(3.5)
                 .stopAndAdd(stopAll())
 
-                .strafeToLinearHeading(new Vector2d(12, -26), Math.toRadians(274))
+                .strafeToLinearHeading(new Vector2d(12, 26), Math.toRadians(94))
                 .stopAndAdd(intakeStack())
-                .strafeTo(new Vector2d(12,-60))
+                .strafeTo(new Vector2d(12,60))
                 .stopAndAdd(stopIntake())
-                .strafeTo(new Vector2d(12,-50))
-                .strafeToLinearHeading(new Vector2d(-46,-39), Math.toRadians(232))
+                .strafeTo(new Vector2d(12,50))
+                .strafeToLinearHeading(new Vector2d(-46,39), Math.toRadians(135))
                 .stopAndAdd(shootFrontIntake())
                 .waitSeconds(3)
                 .stopAndAdd(stopAll())
 
-                .strafeTo(new Vector2d(-23,-46))
+                .strafeTo(new Vector2d(-23,46))
                 .build();
 
         Actions.runBlocking(new SequentialAction(path));

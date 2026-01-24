@@ -17,30 +17,17 @@ public class MeepMeepTesting {
 
 
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-53, -47, Math.toRadians(232)))
-                .strafeTo(new Vector2d(-46,-39))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-53, 47, Math.toRadians(135)))
+                .strafeTo(new Vector2d(-46,39))
+                .strafeToLinearHeading(new Vector2d(-11.5,26), Math.toRadians(94))
+                .strafeTo(new Vector2d(-11.5,55))
+                .strafeToLinearHeading(new Vector2d(-46,39), Math.toRadians(135))
 
-//                .splineToLinearHeading(new Pose2d(-11.5,-28, Math.toRadians(274)), Math.toRadians(270))
-                .strafeToLinearHeading(new Vector2d(-11.5,-26), Math.toRadians(274))
-                .strafeTo(new Vector2d(-11.5,-55))
-                .strafeToLinearHeading(new Vector2d(-46,-39), Math.toRadians(232))
-
-                .strafeToLinearHeading(new Vector2d(12, -26), Math.toRadians(274))
-                .strafeTo(new Vector2d(12,-55))
-                .strafeTo(new Vector2d(12,-50))
-                .strafeToLinearHeading(new Vector2d(-46,-39), Math.toRadians(232))
-//
-//                .strafeToLinearHeading(new Vector2d(35.5, -26), Math.toRadians(272))
-//                .stopAndAdd(intakeStack())
-//                .strafeTo(new Vector2d(35.5,-52))
-//                .strafeTo(new Vector2d(35.5,-26))
-//                .stopAndAdd(stopIntake())
-//                .splineToLinearHeading(new Pose2d(-45.9,-41.3, Math.toRadians(232)), Math.toRadians(270))
-//                .stopAndAdd(shootFrontIntake())
-//                .waitSeconds(3)
-//                .stopAndAdd(stopAll())
-
-                .strafeTo(new Vector2d(-23,-46))
+                .strafeToLinearHeading(new Vector2d(12, 26), Math.toRadians(94))
+                .strafeTo(new Vector2d(12,60))
+                .strafeTo(new Vector2d(12,50))
+                .strafeToLinearHeading(new Vector2d(-46,39), Math.toRadians(135))
+                .strafeTo(new Vector2d(-23,46))
                 .build());
 
 
