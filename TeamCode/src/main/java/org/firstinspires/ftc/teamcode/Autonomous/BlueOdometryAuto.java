@@ -40,7 +40,7 @@ public class BlueOdometryAuto extends LinearOpMode {
         frontIntake = hardwareMap.get(CRServo.class, "FrontIntake");
 
 
-        Pose2d beginPose = new Pose2d(new Vector2d(-53, -47), Math.toRadians(234));
+        Pose2d beginPose = new Pose2d(new Vector2d(-53, -47), Math.toRadians(232));
         MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
 
         waitForStart();
@@ -49,40 +49,43 @@ public class BlueOdometryAuto extends LinearOpMode {
         Action path = drive.actionBuilder(beginPose)
                 .strafeTo(new Vector2d(-46,-39))
                 .stopAndAdd(shootBackIntake())
-                .waitSeconds(2)
+                .waitSeconds(1)
                 .stopAndAdd(shootFrontIntake())
-                .waitSeconds(4)
+                .waitSeconds(4.5)
                 .stopAndAdd(stopAll())
 
-                .splineToLinearHeading(new Pose2d(-11.5,-26, Math.toRadians(270)), Math.toRadians(270))
+//                .splineToLinearHeading(new Pose2d(-11.5,-28, Math.toRadians(274)), Math.toRadians(270))
+                .strafeToLinearHeading(new Vector2d(-11.5,-26), Math.toRadians(274))
                 .stopAndAdd(intakeStack())
-                .lineToY(-55)
-                .lineToY(-26)
+                .strafeTo(new Vector2d(-11.5,-55))
+//                .stopAndAdd(stopIntake())
+                .strafeToLinearHeading(new Vector2d(-46,-39), Math.toRadians(232))
+
+//                .splineToLinearHeading(new Pose2d(-49,-43, Math.toRadians(240)), Math.toRadians(270)) // -45.9, -41.3
+                .stopAndAdd(shootFrontIntake())
+                .waitSeconds(3.5)
+                .stopAndAdd(stopAll())
+
+                .strafeToLinearHeading(new Vector2d(12, -26), Math.toRadians(274))
+                .stopAndAdd(intakeStack())
+                .strafeTo(new Vector2d(12,-60))
                 .stopAndAdd(stopIntake())
-                .splineToLinearHeading(new Pose2d(-45.9,-41.3, Math.toRadians(233)), Math.toRadians(270))
+                .strafeTo(new Vector2d(12,-50))
+                .strafeToLinearHeading(new Vector2d(-46,-39), Math.toRadians(232))
+//                .splineToLinearHeading(new Pose2d(-49,-43, Math.toRadians(240)), Math.toRadians(270))
                 .stopAndAdd(shootFrontIntake())
                 .waitSeconds(3)
                 .stopAndAdd(stopAll())
-
-                .strafeToLinearHeading(new Vector2d(12, -29), Math.toRadians(270))
-                .stopAndAdd(intakeStack())
-                .strafeTo(new Vector2d(12,-52))
-                .strafeTo(new Vector2d(12,-26))
-                .stopAndAdd(stopIntake())
-                .splineToLinearHeading(new Pose2d(-45.9,-41.3, Math.toRadians(233)), Math.toRadians(270))
-                .stopAndAdd(shootFrontIntake())
-                .waitSeconds(3)
-                .stopAndAdd(stopAll())
-
-                .strafeToLinearHeading(new Vector2d(35.5, -26), Math.toRadians(270))
-                .stopAndAdd(intakeStack())
-                .strafeTo(new Vector2d(35.5,-52))
-                .strafeTo(new Vector2d(35.5,-26))
-                .stopAndAdd(stopIntake())
-                .splineToLinearHeading(new Pose2d(-45.9,-41.3, Math.toRadians(233)), Math.toRadians(270))
-                .stopAndAdd(shootFrontIntake())
-                .waitSeconds(3)
-                .stopAndAdd(stopAll())
+//
+//                .strafeToLinearHeading(new Vector2d(35.5, -26), Math.toRadians(272))
+//                .stopAndAdd(intakeStack())
+//                .strafeTo(new Vector2d(35.5,-52))
+//                .strafeTo(new Vector2d(35.5,-26))
+//                .stopAndAdd(stopIntake())
+//                .splineToLinearHeading(new Pose2d(-45.9,-41.3, Math.toRadians(232)), Math.toRadians(270))
+//                .stopAndAdd(shootFrontIntake())
+//                .waitSeconds(3)
+//                .stopAndAdd(stopAll())
 
                 .strafeTo(new Vector2d(-23,-46))
                 .build();
@@ -99,6 +102,8 @@ public class BlueOdometryAuto extends LinearOpMode {
                 launcherWheel.setPower(1.0);
                 leftFlyWheel.setPower(-.85);
                 rightFlyWheel.setPower(.85);
+                rightBelt.setPower(1.0);
+                leftBelt.setPower(-1.0);
                 return false;
             }
         };
@@ -114,8 +119,8 @@ public class BlueOdometryAuto extends LinearOpMode {
                 backBottom.setPower(1.0);
                 launcherWheel.setPower(1.0);
                 backIntake.setPower(-1.0);
-                leftFlyWheel.setPower(-.85);
-                rightFlyWheel.setPower(.85);
+                leftFlyWheel.setPower(-.8);
+                rightFlyWheel.setPower(.8);
                 return false;
             }
         };
