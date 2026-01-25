@@ -39,7 +39,7 @@ public class FarLeave extends LinearOpMode
 
         if (opModeIsActive())
         {
-            driver.strafe_tiles(-0.3,1);
+            driver.strafe_tiles(-0.3,1); // goes to the right when facing forward
 
         }
 
