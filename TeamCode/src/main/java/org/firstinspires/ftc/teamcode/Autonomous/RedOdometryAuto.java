@@ -40,7 +40,7 @@ public class RedOdometryAuto extends LinearOpMode {
         frontIntake = hardwareMap.get(CRServo.class, "FrontIntake");
 
 
-        Pose2d beginPose = new Pose2d(new Vector2d(-53, -47), Math.toRadians(135));
+        Pose2d beginPose = new Pose2d(new Vector2d(-53, 47), Math.toRadians(126));
         MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
 
         waitForStart();
@@ -49,31 +49,31 @@ public class RedOdometryAuto extends LinearOpMode {
         Action path = drive.actionBuilder(beginPose)
                 .strafeTo(new Vector2d(-46,39))
                 .stopAndAdd(shootBackIntake())
-                .waitSeconds(1)
+                .waitSeconds(2)
                 .stopAndAdd(shootFrontIntake())
-                .waitSeconds(4.5)
+                .waitSeconds(5.5)
                 .stopAndAdd(stopAll())
 
-                .strafeToLinearHeading(new Vector2d(-11.5,26), Math.toRadians(94))
+                .strafeToLinearHeading(new Vector2d(-11.5,22), Math.toRadians(92)) // maybe change to 90
                 .stopAndAdd(intakeStack())
                 .strafeTo(new Vector2d(-11.5,55))
-                .strafeToLinearHeading(new Vector2d(-46,39), Math.toRadians(135))
+                .strafeToLinearHeading(new Vector2d(-46,39), Math.toRadians(126))
 
                 .stopAndAdd(shootFrontIntake())
-                .waitSeconds(3.5)
+                .waitSeconds(5)
                 .stopAndAdd(stopAll())
+//
+//                .strafeToLinearHeading(new Vector2d(12, 22), Math.toRadians(94)) // maybe change to 90
+//                .stopAndAdd(intakeStack())
+//                .strafeTo(new Vector2d(12,60))
+//                .stopAndAdd(stopIntake())
+//                .strafeTo(new Vector2d(12,47))
+//                .strafeToLinearHeading(new Vector2d(-46,39), Math.toRadians(126))
+//                .stopAndAdd(shootFrontIntake())
+//                .waitSeconds(3)
+//                .stopAndAdd(stopAll())
 
-                .strafeToLinearHeading(new Vector2d(12, 26), Math.toRadians(94))
-                .stopAndAdd(intakeStack())
-                .strafeTo(new Vector2d(12,60))
-                .stopAndAdd(stopIntake())
-                .strafeTo(new Vector2d(12,50))
-                .strafeToLinearHeading(new Vector2d(-46,39), Math.toRadians(135))
-                .stopAndAdd(shootFrontIntake())
-                .waitSeconds(3)
-                .stopAndAdd(stopAll())
-
-                .strafeTo(new Vector2d(-23,46))
+                .strafeTo(new Vector2d(-60,33)) // -23, 46
                 .build();
 
         Actions.runBlocking(new SequentialAction(path));
@@ -86,8 +86,8 @@ public class RedOdometryAuto extends LinearOpMode {
                 backIntake.setPower(-1.0);
                 backBottom.setPower(-1.0);
                 launcherWheel.setPower(1.0);
-                leftFlyWheel.setPower(-.85);
-                rightFlyWheel.setPower(.85);
+                leftFlyWheel.setPower(-.8);
+                rightFlyWheel.setPower(.8);
                 rightBelt.setPower(1.0);
                 leftBelt.setPower(-1.0);
                 return false;
