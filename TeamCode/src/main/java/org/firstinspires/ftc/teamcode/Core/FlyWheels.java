@@ -93,9 +93,10 @@ public class FlyWheels {
     private static final double FULL_POWER = 1.0;
 
     private static final double TICKS_PER_REV = 103.8;
-    private double targetRPMnear = 1400; // can change to diff. values we want to test
 
-    private double targetRPM = 950; //1350
+    public static final double TARGET_RPM = 1320;
+
+    private double targetRPM = TARGET_RPM; //1350
 
     private double maxRPM = 1700;
 
@@ -279,4 +280,8 @@ public class FlyWheels {
         targetRPM += delta;
         targetRPM = Math.max(600, Math.min(1620, targetRPM));
     }
+
+   public void setTargetRPM(double rpm) {
+        targetRPM = rpm;
+   }
 }
