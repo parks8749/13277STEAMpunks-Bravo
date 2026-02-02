@@ -1,16 +1,17 @@
 package org.firstinspires.ftc.teamcode.Core;
 
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class LauncherWheel {
 
-    private final CRServo launcherWheel;
+    private final DcMotor launcherWheel;
     private static final double POWER = 1.0;
     private boolean toggledB = false;
     private boolean lastBPressed = false;
 
-    public LauncherWheel(CRServo launcherWheel) {
+    public LauncherWheel(DcMotor launcherWheel) {
         this.launcherWheel = launcherWheel;
     }
 
