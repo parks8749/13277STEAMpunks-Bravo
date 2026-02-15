@@ -23,7 +23,7 @@ public class AprilTagTestRed extends LinearOpMode {
             telemetry.update();
 
             if (detectedTag == 21) {
-
+                //
             } else if (detectedTag == 22) {
                 new AprilTag22Red().run(this);
             } else if (detectedTag == 23) {
@@ -46,7 +46,6 @@ public class AprilTagTestRed extends LinearOpMode {
         sleep(200);
         LLResult p9 = limelight.getLatestResult();
         if (p9 != null && p9.isValid()) return 23;
-
         return 23;
     }
 }
