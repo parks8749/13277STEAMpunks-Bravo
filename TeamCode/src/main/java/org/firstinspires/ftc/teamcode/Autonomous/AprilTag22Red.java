@@ -1,0 +1,137 @@
+package org.firstinspires.ftc.teamcode.Autonomous;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import androidx.annotation.NonNull;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.ftc.Actions;
+import org.firstinspires.ftc.teamcode.MecanumDrive;
+
+public class AprilTag22Red {
+
+    Driver driver;
+    public CRServo backBottom;
+    public CRServo backIntake;
+    public CRServo launcherWheel;
+    public DcMotor leftFlyWheel;
+    public DcMotor rightFlyWheel;
+    public CRServo rightBelt;
+    public CRServo leftBelt;
+    public CRServo frontIntake;
+
+    public void run(LinearOpMode opMode) {
+
+        backBottom = opMode.hardwareMap.get(CRServo.class, "BackBottom");
+        backIntake = opMode.hardwareMap.get(CRServo.class, "BackIntake");
+        launcherWheel = opMode.hardwareMap.get(CRServo.class, "LauncherWheel");
+        leftFlyWheel = opMode.hardwareMap.get(DcMotor.class, "leftFly");
+        rightFlyWheel = opMode.hardwareMap.get(DcMotor.class, "rightFly");
+        leftBelt = opMode.hardwareMap.get(CRServo.class, "LeftBelt");
+        rightBelt = opMode.hardwareMap.get(CRServo.class, "RightBelt");
+        frontIntake = opMode.hardwareMap.get(CRServo.class, "FrontIntake");
+
+        Pose2d beginPose = new Pose2d(new Vector2d(-47, 0), Math.toRadians(232));
+        MecanumDrive drive = new MecanumDrive(opMode.hardwareMap, beginPose);
+
+        Action path = drive.actionBuilder(beginPose)
+                .strafeToLinearHeading(new Vector2d(9,20), Math.toRadians(90))
+                .strafeTo(new Vector2d(13,54))
+                .stopAndAdd(intakeStack())
+                .strafeTo(new Vector2d(8,20))
+                .strafeTo(new Vector2d(-46,25))
+                .splineToConstantHeading(new Vector2d(-46,46), Math.toRadians(135))
+                .turnTo(Math.toRadians(90)) // fixed turnTo input
+                .stopAndAdd(shootFrontIntake())
+                .waitSeconds(5)
+                .stopAndAdd(stopAll())
+                .strafeToLinearHeading(new Vector2d(-11,34), Math.toRadians(90)) // fixed 810°
+                .stopAndAdd(shootFrontIntake())
+                .waitSeconds(5)
+                .stopAndAdd(stopAll())
+                .strafeTo(new Vector2d(-11,55))
+                .strafeToLinearHeading(new Vector2d(-46,46), Math.toRadians(135))
+                .stopAndAdd(intakeStack())
+                .build();
+
+        Actions.runBlocking(new SequentialAction(path));
+    }
+
+    public Action shootBackIntake() {
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                backIntake.setPower(-1.0);
+                backBottom.setPower(-1.0);
+                launcherWheel.setPower(1.0);
+                leftFlyWheel.setPower(-.85);
+                rightFlyWheel.setPower(.85);
+                rightBelt.setPower(1.0);
+                leftBelt.setPower(-1.0);
+                return false;
+            }
+        };
+    }
+
+    public Action shootFrontIntake() {
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                rightBelt.setPower(1.0);
+                leftBelt.setPower(-1.0);
+                backBottom.setPower(1.0);
+                launcherWheel.setPower(1.0);
+                backIntake.setPower(-1.0);
+                leftFlyWheel.setPower(-.8);
+                rightFlyWheel.setPower(.8);
+                return false;
+            }
+        };
+    }
+
+    public Action intakeStack() {
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                frontIntake.setPower(1.0);
+                rightBelt.setPower(1.0);
+                leftBelt.setPower(-1.0);
+                launcherWheel.setPower(1.0);
+                backIntake.setPower(-1.0);
+                return false;
+            }
+        };
+    }
+
+    public Action stopIntake() {
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                launcherWheel.setPower(0);
+                return false;
+            }
+        };
+    }
+
+    public Action stopAll() {
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                rightBelt.setPower(0);
+                leftBelt.setPower(0);
+                backBottom.setPower(0);
+                launcherWheel.setPower(0);
+                backIntake.setPower(0);
+                leftFlyWheel.setPower(0.0);
+                rightFlyWheel.setPower(0.0);
+                return false;
+            }
+        };
+    }
+}
+
+
