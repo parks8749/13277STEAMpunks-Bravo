@@ -4,9 +4,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.limelightvision.LLResult;
+import org.firstinspires.ftc.teamcode.Autonomous.AprilTag21Blue;
+import org.firstinspires.ftc.teamcode.Autonomous.AprilTag22Blue;
+import org.firstinspires.ftc.teamcode.Autonomous.AprilTag23Blue;
 
-@Autonomous(name="AprilTagTest", group="Autonomous")
-public class AprilTagTest extends LinearOpMode {
+
+
+@Autonomous(name="AprilTagTestBlue", group="Autonomous")
+public class AprilTagTestBlue extends LinearOpMode {
     private Limelight3A limelight;
     /*
     make it do the same thing over again at first 2 new seperate pipelines that takes
@@ -31,11 +36,11 @@ public class AprilTagTest extends LinearOpMode {
             telemetry.update();
 
             if (detectedTag == 21) {
-                // gotta make a new class and link it to that class do this for better organization
+
             } else if (detectedTag == 22) {
-                //
+                new AprilTag22Blue().run(this);
             } else if (detectedTag == 23) {
-                //
+                new AprilTag23Blue().run(this);
             }
         }
     }
@@ -58,3 +63,5 @@ public class AprilTagTest extends LinearOpMode {
         return 21;
     }
 }
+
+
