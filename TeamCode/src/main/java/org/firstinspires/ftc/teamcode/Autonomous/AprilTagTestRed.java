@@ -8,14 +8,6 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 @Autonomous(name="AprilTagTestRed", group="Autonomous")
 public class AprilTagTestRed extends LinearOpMode {
     private Limelight3A limelight;
-    /*
-    make it do the same thing over again at first 2 new seperate pipelines that takes
-    the data from the thing 2 aprilTags and make like an if structure where the apriltags
-    first like scans the alliance tags and then like does an embedded
-     */
-    // the main thing you have to add here why the turn 45 degrees and straffee 2 to the right or left
-
-    // Check for time constraints
     @Override
     public void runOpMode() throws InterruptedException {
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
@@ -55,6 +47,6 @@ public class AprilTagTestRed extends LinearOpMode {
         LLResult p9 = limelight.getLatestResult();
         if (p9 != null && p9.isValid()) return 23;
 
-        return 21;
+        return 23;
     }
 }
