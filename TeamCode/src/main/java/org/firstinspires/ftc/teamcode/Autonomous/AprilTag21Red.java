@@ -39,13 +39,30 @@ public class AprilTag21Red extends LinearOpMode {
         frontIntake = hardwareMap.get(CRServo.class, "FrontIntake");
 
 
-        Pose2d beginPose = new Pose2d(new Vector2d(-53, -47), Math.toRadians(232));
+        Pose2d beginPose = new Pose2d(new Vector2d(-47, 0), Math.toRadians(180));
         MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
 
         waitForStart();
 
         // --- Create the Trajectory Action ---
         Action path = drive.actionBuilder(beginPose)
+                // Capture GPP pattern
+                .splineToLinearHeading(new Pose2d(35.4, 24, Math.toRadians(90)), Math.toRadians(90))
+                .splineTo(new Vector2d(35.4,37.2), Math.toRadians(90)) //1
+                .strafeTo(new Vector2d(35.4,50)) //2
+                .strafeTo(new Vector2d(35.4,25.4)) //3
+
+                // Go to goal to shoot GPP pattern
+                // Oh shoot
+                .splineToLinearHeading(new Pose2d(-46, 39, Math.toRadians(135)), Math.toRadians(120))
+
+                //Capture 1st row
+                .splineToLinearHeading(new Pose2d(-12, 24, Math.toRadians(90)), Math.toRadians(90))
+                .strafeTo(new Vector2d(-12,46)) //6
+
+                .splineTo(new Vector2d(-46,39), Math.toRadians(135)) //8
+
+
                 .build();
 
         Actions.runBlocking(new SequentialAction(path));

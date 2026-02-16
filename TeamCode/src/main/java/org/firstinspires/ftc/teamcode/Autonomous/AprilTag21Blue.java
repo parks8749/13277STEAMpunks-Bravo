@@ -39,7 +39,7 @@ public class AprilTag21Blue extends LinearOpMode {
         frontIntake = hardwareMap.get(CRServo.class, "FrontIntake");
 
 
-        Pose2d beginPose = new Pose2d(new Vector2d(-53, -47), Math.toRadians(232));
+        Pose2d beginPose = new Pose2d(new Vector2d(-47, 0), Math.toRadians(180));
         MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
 
         waitForStart();
