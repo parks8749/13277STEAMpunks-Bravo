@@ -48,7 +48,7 @@ public class Decode2025 extends LinearOpMode {
         );
 
         frontIntake = new FrontIntake(
-                hardwareMap.get(CRServo.class, "FrontIntake")
+                hardwareMap.get(DcMotor.class, "FrontIntake")
         );
 
         flyWheels = new FlyWheels(
