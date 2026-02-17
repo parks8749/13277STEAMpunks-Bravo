@@ -1,14 +1,15 @@
 package org.firstinspires.ftc.teamcode.Core;
 
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class FrontIntake {
 
-    private final CRServo frontIntake;
+    private final DcMotor frontIntake;
 //    private boolean lastAPressed = false;
 
-    public FrontIntake(CRServo frontIntake) {
+    public FrontIntake(DcMotor frontIntake) {
         this.frontIntake = frontIntake;
     }
 
