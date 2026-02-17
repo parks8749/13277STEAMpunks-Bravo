@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 public class LauncherWheel {
 
     private final DcMotor launcherWheel;
-    private static final double POWER = 1.0;
+    private static final double POWER = 0.35; //1.0
     private boolean toggledB = false;
     private boolean lastBPressed = false;
 
@@ -37,7 +37,7 @@ public class LauncherWheel {
 
         // 3) Override (Y) next priority
         if (override) {
-            launcherWheel.setPower(-POWER);
+            launcherWheel.setPower(-1.0);
             return;
         }
 
