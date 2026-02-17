@@ -49,27 +49,23 @@ public class AprilTag21Blue extends LinearOpMode {
 
 
                 // Capture GPP pattern
-                .splineToLinearHeading(new Pose2d(35.4, -24, Math.toRadians(270)), Math.toRadians(270))
-                .splineTo(new Vector2d(35.4,-37.2), Math.toRadians(270)) //1
+                .splineToLinearHeading(new Pose2d(35.4, -24, Math.toRadians(272)), Math.toRadians(272))
                 .stopAndAdd(intakeStack())
                 .strafeTo(new Vector2d(35.4,-50)) //2
-                .strafeTo(new Vector2d(35.4,-25.4)) //3
+                .strafeTo(new Vector2d(35.4,-24)) //3
 
-                // Go to goal to shoot GPP pattern
                 .splineToLinearHeading(new Pose2d(-46, -39, Math.toRadians(232)), Math.toRadians(220)) //4
                 .stopAndAdd(shootFrontIntake())
                 .waitSeconds(5)
                 .stopAndAdd(stopAll())
-                .splineTo(new Vector2d(-12.3,-24), Math.toRadians(270)) //5
+                .strafeToLinearHeading(new Vector2d(-12,-24), Math.toRadians(272))
 
-                //Capture 1st row
                 .stopAndAdd(intakeStack())
-                .strafeTo(new Vector2d(-12,-24)) //6
-                .strafeTo(new Vector2d(-12,-46)) //6
+                .strafeTo(new Vector2d(-12,-52)) //6
                 .stopAndAdd(shootFrontIntake())
-                .waitSeconds(5)
                 .stopAndAdd(stopAll())
-                .splineTo(new Vector2d(-46,-39), Math.toRadians(220)) //8
+                .strafeToLinearHeading(new Vector2d(-46, -39), Math.toRadians(232))
+                .strafeTo(new Vector2d(-59,-37)) //6
                 .build();
 
         Actions.runBlocking(new SequentialAction(path));

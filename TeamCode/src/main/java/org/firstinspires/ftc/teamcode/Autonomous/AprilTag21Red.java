@@ -48,20 +48,24 @@ public class AprilTag21Red extends LinearOpMode {
         Action path = drive.actionBuilder(beginPose)
                 // Capture GPP pattern
                 .splineToLinearHeading(new Pose2d(35.4, 24, Math.toRadians(90)), Math.toRadians(90))
-                .splineTo(new Vector2d(35.4,37.2), Math.toRadians(90)) //1
-                .strafeTo(new Vector2d(35.4,50)) //2
-                .strafeTo(new Vector2d(35.4,25.4)) //3
+                .strafeTo(new Vector2d(35.4,60)) //2
+                // .stopAndAdd(intakeStack())
+                .waitSeconds(5)
+                .strafeTo(new Vector2d(35.4,24)) //3
 
-                // Go to goal to shoot GPP pattern
-                // Oh shoot
                 .splineToLinearHeading(new Pose2d(-46, 39, Math.toRadians(135)), Math.toRadians(120))
+                // .stopAndAdd(shootFrontIntake())
+                .waitSeconds(5)
+                //  .stopAndAdd(stopAll())
 
-                //Capture 1st row
-                .splineToLinearHeading(new Pose2d(-12, 24, Math.toRadians(90)), Math.toRadians(90))
-                .strafeTo(new Vector2d(-12,46)) //6
-
-                .splineTo(new Vector2d(-46,39), Math.toRadians(135)) //8
-
+                .strafeToLinearHeading(new Vector2d(-12,24), Math.toRadians(90))
+                .strafeTo(new Vector2d(-12,53)) //6
+                // .stopAndAdd(intakeStack())
+                .waitSeconds(5)
+                .strafeToLinearHeading(new Vector2d(-46, 39), Math.toRadians(135))
+                // .stopAndAdd(shootFrontIntake())
+                //  .stopAndAdd(stopAll())
+                .strafeTo(new Vector2d(-59,37)) //6
 
                 .build();
 
