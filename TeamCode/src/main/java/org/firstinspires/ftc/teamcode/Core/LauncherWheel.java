@@ -31,18 +31,18 @@ public class LauncherWheel {
 
         // 2) A hold should immediately run the launcher while held (highest priority)
         if (aPressed) {
-            launcherWheel.setPower(POWER);
+            launcherWheel.setPower(-POWER);
             return;
         }
 
         // 3) Override (Y) next priority
         if (override) {
-            launcherWheel.setPower(POWER);
+            launcherWheel.setPower(-POWER);
             return;
         }
 
         // 4) Otherwise follow toggledB state
-        launcherWheel.setPower(toggledB ? POWER : 0.0);
+        launcherWheel.setPower(toggledB ? -POWER : 0.0);
     }
 
     public void stop() {
