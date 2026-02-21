@@ -18,10 +18,10 @@ public class Decode2025 extends LinearOpMode {
 
     public DriveTrain driveTrain;
     public BackBottom backBottom;
-    public BackIntake backIntake;
+//    public BackIntake backIntake;
     public LauncherWheel launcherWheel;
     public FlyWheels flyWheels;
-    public Belts belts;
+//    public Belts belts;
     public FrontIntake frontIntake;
 
     private static final float STICK_DEADZONE = 0.08f;
@@ -39,9 +39,9 @@ public class Decode2025 extends LinearOpMode {
                 hardwareMap.get(CRServo.class, "BackBottom")
         );
 
-        backIntake = new BackIntake(
-                hardwareMap.get(CRServo.class, "BackIntake")
-        );
+//        backIntake = new BackIntake(
+//                hardwareMap.get(CRServo.class, "BackIntake")
+//        );
 
         launcherWheel = new LauncherWheel(
                 hardwareMap.get(DcMotor.class, "LauncherWheel")
@@ -56,17 +56,17 @@ public class Decode2025 extends LinearOpMode {
                 hardwareMap.get(DcMotor.class, "rightFly")
         );
 
-        belts = new Belts(
-                hardwareMap.get(CRServo.class, "LeftBelt"),
-                hardwareMap.get(CRServo.class, "RightBelt")
-        );
+//        belts = new Belts(
+//                hardwareMap.get(CRServo.class, "LeftBelt"),
+//                hardwareMap.get(CRServo.class, "RightBelt")
+//        );
 
         // Init all subsystems
         backBottom.init();
-        backIntake.init();
+//        backIntake.init();
         launcherWheel.init();
         flyWheels.init();
-        belts.init();
+//        belts.init();
         frontIntake.init();
 
         telemetry.addData("Status", "Initialized");
@@ -83,20 +83,20 @@ public class Decode2025 extends LinearOpMode {
 
             boolean overrideAll = gamepad2.y;
 
-            int beltsMode = belts.getMode();
-            boolean frontActive = frontIntake.isActive(beltsMode);
+//            int beltsMode = belts.getMode();
+//            boolean frontActive = frontIntake.isActive(beltsMode);
 
             launcherWheel.update(gamepad2.b, overrideAll, gamepad2.a);
-            backIntake.update(leftStick, overrideAll, beltsMode, gamepad2.a);
+//            backIntake.update(leftStick, overrideAll, beltsMode, gamepad2.a);
 
 
-            backBottom.update(
-                    beltsMode,
-                    gamepad2.left_stick_y,
-                    overrideAll,
-                    frontActive,
-                    gamepad2.a
-            );
+//            backBottom.update(
+//                    beltsMode,
+//                    gamepad2.left_stick_y,
+//                    overrideAll,
+//                    frontActive,
+//                    gamepad2.a
+//            );
 
             flyWheels.update(
                     gamepad2.right_bumper,
@@ -110,10 +110,10 @@ public class Decode2025 extends LinearOpMode {
             if (gamepad2.dpad_left || gamepad2.dpad_right) flyWheels.setTargetRPM(flyWheels.TARGET_RPM);
 
 
-            belts.update(rightStick, gamepad2.a);
-            frontIntake.update(beltsMode, gamepad2.a);
+//            belts.update(rightStick, gamepad2.a);
+            frontIntake.update(gamepad2.right_stick_y, gamepad2.a);
 
-            telemetry.addData("Front Intake Active", frontActive);
+//            telemetry.addData("Front Intake Active", frontActive);
 
             telemetry.update();
 

@@ -23,10 +23,10 @@ public class FrontIntake {
      * mode == 2 -> power = -1.0
      * mode == 0 -> power = 0.0
      */
-    public void update(int beltsMode, boolean aPressed) {
-        if (beltsMode == 1) {
+    public void update(float rightStickY, boolean aPressed) {
+        if (rightStickY < 0.0f) {
             frontIntake.setPower(1.0);
-        } else if (beltsMode == 2) {
+        } else if (rightStickY > 0.0f) {
             frontIntake.setPower(-1.0);
         } else {
             frontIntake.setPower(0.0);
@@ -40,9 +40,9 @@ public class FrontIntake {
 
     }
 
-    public boolean isActive(int beltsMode) {
-        return beltsMode == 1 || beltsMode == 2;
-    }
+//    public boolean isActive(int beltsMode) {
+//        return beltsMode == 1 || beltsMode == 2;
+//    }
 
     public void stop() {
         frontIntake.setPower(0.0);
