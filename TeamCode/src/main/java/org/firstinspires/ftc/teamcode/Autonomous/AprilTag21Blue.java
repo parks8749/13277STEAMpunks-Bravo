@@ -17,25 +17,25 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 @Autonomous(name = "AprilTag21Blue")
 public class AprilTag21Blue extends LinearOpMode {
     Driver driver;
-    public CRServo backBottom;
-    public CRServo backIntake;
+//    public CRServo backBottom;
+//    public CRServo backIntake;
     public CRServo launcherWheel;
-    public DcMotor leftFlyWheel;
-    public DcMotor rightFlyWheel;
-    public CRServo rightBelt;
-    public CRServo leftBelt;
+//    public DcMotor leftFlyWheel;
+//    public DcMotor rightFlyWheel;
+//    public CRServo rightBelt;
+//    public CRServo leftBelt;
     public CRServo frontIntake;
 
     @Override
     public void runOpMode() throws InterruptedException {
 
-        backBottom = hardwareMap.get(CRServo.class, "BackBottom");
-        backIntake = hardwareMap.get(CRServo.class, "BackIntake");
+//        backBottom = hardwareMap.get(CRServo.class, "BackBottom");
+//        backIntake = hardwareMap.get(CRServo.class, "BackIntake");
         launcherWheel = hardwareMap.get(CRServo.class, "LauncherWheel");
-        leftFlyWheel = hardwareMap.get(DcMotor.class, "leftFly");
-        rightFlyWheel = hardwareMap.get(DcMotor.class, "rightFly");
-        leftBelt = hardwareMap.get(CRServo.class, "LeftBelt");
-        rightBelt = hardwareMap.get(CRServo.class, "RightBelt");
+//        leftFlyWheel = hardwareMap.get(DcMotor.class, "leftFly");
+//        rightFlyWheel = hardwareMap.get(DcMotor.class, "rightFly");
+//        leftBelt = hardwareMap.get(CRServo.class, "LeftBelt");
+//        rightBelt = hardwareMap.get(CRServo.class, "RightBelt");
         frontIntake = hardwareMap.get(CRServo.class, "FrontIntake");
 
 
@@ -75,13 +75,13 @@ public class AprilTag21Blue extends LinearOpMode {
         return new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                backIntake.setPower(-1.0);
-                backBottom.setPower(-1.0);
+//                backIntake.setPower(-1.0);
+//                backBottom.setPower(-1.0);
                 launcherWheel.setPower(1.0);
-                leftFlyWheel.setPower(-.85);
-                rightFlyWheel.setPower(.85);
-                rightBelt.setPower(1.0);
-                leftBelt.setPower(-1.0);
+//                leftFlyWheel.setPower(-.85);
+//                rightFlyWheel.setPower(.85);
+//                rightBelt.setPower(1.0);
+//                leftBelt.setPower(-1.0);
                 return false;
             }
         };
@@ -92,13 +92,13 @@ public class AprilTag21Blue extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
 
-                rightBelt.setPower(1.0);
-                leftBelt.setPower(-1.0);
-                backBottom.setPower(1.0);
+//                rightBelt.setPower(1.0);
+//                leftBelt.setPower(-1.0);
+//                backBottom.setPower(1.0);
                 launcherWheel.setPower(1.0);
-                backIntake.setPower(-1.0);
-                leftFlyWheel.setPower(-.8);
-                rightFlyWheel.setPower(.8);
+//                backIntake.setPower(-1.0);
+//                leftFlyWheel.setPower(-.8);
+//                rightFlyWheel.setPower(.8);
                 return false;
             }
         };
@@ -109,10 +109,10 @@ public class AprilTag21Blue extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 frontIntake.setPower(1.0);
-                rightBelt.setPower(1.0);
-                leftBelt.setPower(-1.0);
+//                rightBelt.setPower(1.0);
+//                leftBelt.setPower(-1.0);
                 launcherWheel.setPower(1.0);
-                backIntake.setPower(-1.0);
+//                backIntake.setPower(-1.0);
                 return false;
             }
         };
@@ -133,13 +133,13 @@ public class AprilTag21Blue extends LinearOpMode {
         return new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                rightBelt.setPower(0);
-                leftBelt.setPower(0);
-                backBottom.setPower(0);
+//                rightBelt.setPower(0);
+//                leftBelt.setPower(0);
+//                backBottom.setPower(0);
                 launcherWheel.setPower(0);
-                backIntake.setPower(0);
-                leftFlyWheel.setPower(0.0);
-                rightFlyWheel.setPower(0.0);
+//                backIntake.setPower(0);
+//                leftFlyWheel.setPower(0.0);
+//                rightFlyWheel.setPower(0.0);
                 return false;
             }
         };
