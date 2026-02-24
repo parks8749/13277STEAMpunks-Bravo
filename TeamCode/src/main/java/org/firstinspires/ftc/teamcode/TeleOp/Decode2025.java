@@ -35,9 +35,9 @@ public class Decode2025 extends LinearOpMode {
                 "rightFront", "rightBack"
         );
 
-        backBottom = new BackBottom(
-                hardwareMap.get(CRServo.class, "BackBottom")
-        );
+//        backBottom = new BackBottom(
+//                hardwareMap.get(CRServo.class, "BackBottom")
+//        );
 
 //        backIntake = new BackIntake(
 //                hardwareMap.get(CRServo.class, "BackIntake")
@@ -62,7 +62,7 @@ public class Decode2025 extends LinearOpMode {
 //        );
 
         // Init all subsystems
-        backBottom.init();
+//        backBottom.init();
 //        backIntake.init();
         launcherWheel.init();
         flyWheels.init();
