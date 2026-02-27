@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.Core.LauncherWheel;
 public class Decode2025 extends LinearOpMode {
 
     public DriveTrain driveTrain;
-    public BackBottom backBottom;
+//    public BackBottom backBottom;
 //    public BackIntake backIntake;
     public LauncherWheel launcherWheel;
     public FlyWheels flyWheels;
