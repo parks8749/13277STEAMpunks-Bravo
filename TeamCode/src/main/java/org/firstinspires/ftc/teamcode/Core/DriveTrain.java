@@ -20,8 +20,8 @@ public class DriveTrain
 
     // Direction modifiers (1 or -1) in case a motor needs reversing for power calls
     // <-- LEFT MOTORS inverted to correct physical wiring (front & back left were spinning opposite)
-    protected final int MOTOR_fL_MODIFIER = 1; // -1
-    protected final int MOTOR_bL_MODIFIER = -1;
+    protected final int MOTOR_fL_MODIFIER = -1; //1
+    protected final int MOTOR_bL_MODIFIER = 1; //-1
     protected final int MOTOR_fR_MODIFIER = 1;
     protected final int MOTOR_bR_MODIFIER = 1;
 
@@ -104,19 +104,19 @@ public class DriveTrain
 
     protected void Forward(Gamepad gamepad, float speed)
     {
-        double speedMod = calculateSpeedModifier(gamepad, 0.4, 0.8, 1.0);
+        double speedMod = calculateSpeedModifier(gamepad, 0.3, 0.8, 1.0);
         DirectForward(speed * speedMod);
     }
 
     protected void Strafe(Gamepad gamepad, float speed)
     {
-        double speedMod = calculateSpeedModifier(gamepad, 0.4, 0.8, 1.0);
+        double speedMod = calculateSpeedModifier(gamepad, 0.3, 0.8, 1.0);
         DirectStrafe(speed * speedMod);
     }
 
     public void Turn(Gamepad gamepad, float speed)
     {
-        double speedMod = calculateSpeedModifier(gamepad, 0.4, 0.8, 1.0);
+        double speedMod = calculateSpeedModifier(gamepad, 0.3, 0.8, 1.0);
         DirectTurn(speed * speedMod);
     }
 
