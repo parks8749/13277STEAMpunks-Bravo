@@ -17,30 +17,16 @@ public class MeepMeepTesting {
 
 
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-47, 0, Math.toRadians(232)))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-53, -47, Math.toRadians(232)))
+                .strafeTo(new Vector2d(-46,-39))
+//                .stopAndAdd(shootFrontIntake())
+//                .waitSeconds(5)
+//                .stopAndAdd(stopAll())
 
-                .strafeToLinearHeading(new Vector2d(9,-20),Math.toRadians(230))
-                .strafeToLinearHeading(new Vector2d(12,-27),Math.toRadians(270))
-                .strafeTo(new Vector2d(12,-54))
-                .strafeTo(new Vector2d(12,-27))
-                .strafeTo(new Vector2d(-48,-29))
-                .strafeToLinearHeading(new Vector2d(-47,-47), Math.toRadians(230))
-                .strafeToLinearHeading(new Vector2d(-10,-19), Math.toRadians(272))
-                .strafeTo(new Vector2d(-12,-55))
-                .strafeToLinearHeading(new Vector2d(-47,-47), Math.toRadians(230))
-                .strafeTo(new Vector2d(-60,-33))
-
-
-//                .strafeToLinearHeading(new Vector2d(35,-26), Math.toRadians(272))
-//                .strafeTo(new Vector2d(35,-55))
-//                .strafeTo(new Vector2d(35,-45))
-//                .splineToLinearHeading(new Pose2d(-48,-38,Math.toRadians(232)), Math.toRadians(240))
-//                .strafeToLinearHeading(new Vector2d(-11.5, -22), Math.toRadians(272))
-//                .strafeTo(new Vector2d(-11.5,-53))
-//                .strafeToLinearHeading(new Vector2d(-48,-38), Math.toRadians(232))
-//                .strafeTo(new Vector2d(-58,-35))
-
-
+                .strafeToLinearHeading(new Vector2d(-11.5,-22), Math.toRadians(272))
+//                .stopAndAdd(intakeStack())
+                .strafeTo(new Vector2d(-11.5,-55))
+                .strafeToLinearHeading(new Vector2d(-46,-39), Math.toRadians(232))
 
 
 

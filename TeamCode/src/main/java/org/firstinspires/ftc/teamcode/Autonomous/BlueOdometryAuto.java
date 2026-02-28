@@ -48,18 +48,18 @@ public class BlueOdometryAuto extends LinearOpMode {
         // --- Create the Trajectory Action ---
         Action path = drive.actionBuilder(beginPose)
                 .strafeTo(new Vector2d(-46,-39))
-                .stopAndAdd(shootFrontIntake())
-                .waitSeconds(5)
-                .stopAndAdd(stopAll())
+//                .stopAndAdd(shootFrontIntake())
+//                .waitSeconds(5)
+//                .stopAndAdd(stopAll())
 
                 .strafeToLinearHeading(new Vector2d(-11.5,-22), Math.toRadians(272))
-                .stopAndAdd(intakeStack())
+//                .stopAndAdd(intakeStack())
                 .strafeTo(new Vector2d(-11.5,-55))
                 .strafeToLinearHeading(new Vector2d(-46,-39), Math.toRadians(232))
-
-                .stopAndAdd(shootFrontIntake())
-                .waitSeconds(5)
-                .stopAndAdd(stopAll())
+//
+//                .stopAndAdd(shootFrontIntake())
+//                .waitSeconds(5)
+//                .stopAndAdd(stopAll())
 
 //                .strafeToLinearHeading(new Vector2d(12, -26), Math.toRadians(274))
 //                .stopAndAdd(intakeStack())
