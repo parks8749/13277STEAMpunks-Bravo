@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 public class LauncherWheel {
 
     private final DcMotor launcherWheel;
-    private static final double POWER = 0.35; //1.0
+    private static final double POWER = 1; //.35
     private boolean toggledB = false;
     private boolean lastBPressed = false;
 

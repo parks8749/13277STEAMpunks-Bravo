@@ -66,7 +66,9 @@ public class distanceSensorTest extends LinearOpMode {
 
 
             if (ballBlocking) {
+                sleep(500);
                 launcherWheel.stop();
+                frontIntake.stop();
             } else {
                 launcherWheel.update(true, false, false);
             }
