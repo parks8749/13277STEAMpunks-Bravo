@@ -14,7 +14,6 @@ public class Decode2025 extends LinearOpMode {
     public DriveTrain driveTrain;
     public LauncherWheel launcherWheel;
     public FlyWheels flyWheels;
-//    public Belts belts;
     public FrontIntake frontIntake;
 
     private static final float STICK_DEADZONE = 0.08f;
