@@ -2,12 +2,7 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
-import org.firstinspires.ftc.teamcode.Core.BackBottom;
-import org.firstinspires.ftc.teamcode.Core.BackIntake;
-import org.firstinspires.ftc.teamcode.Core.Belts;
 import org.firstinspires.ftc.teamcode.Core.DriveTrain;
 import org.firstinspires.ftc.teamcode.Core.FlyWheels;
 import org.firstinspires.ftc.teamcode.Core.FrontIntake;
@@ -17,8 +12,6 @@ import org.firstinspires.ftc.teamcode.Core.LauncherWheel;
 public class Decode2025 extends LinearOpMode {
 
     public DriveTrain driveTrain;
-//    public BackBottom backBottom;
-//    public BackIntake backIntake;
     public LauncherWheel launcherWheel;
     public FlyWheels flyWheels;
 //    public Belts belts;
@@ -34,15 +27,6 @@ public class Decode2025 extends LinearOpMode {
                 "leftFront", "leftBack",
                 "rightFront", "rightBack"
         );
-
-//        backBottom = new BackBottom(
-//                hardwareMap.get(CRServo.class, "BackBottom")
-//        );
-
-//        backIntake = new BackIntake(
-//                hardwareMap.get(CRServo.class, "BackIntake")
-//        );
-
         launcherWheel = new LauncherWheel(
                 hardwareMap.get(DcMotor.class, "LauncherWheel")
         );
@@ -56,17 +40,9 @@ public class Decode2025 extends LinearOpMode {
                 hardwareMap.get(DcMotor.class, "rightFly")
         );
 
-//        belts = new Belts(
-//                hardwareMap.get(CRServo.class, "LeftBelt"),
-//                hardwareMap.get(CRServo.class, "RightBelt")
-//        );
-
         // Init all subsystems
-//        backBottom.init();
-//        backIntake.init();
         launcherWheel.init();
         flyWheels.init();
-//        belts.init();
         frontIntake.init();
 
         telemetry.addData("Status", "Initialized");
@@ -83,20 +59,7 @@ public class Decode2025 extends LinearOpMode {
 
             boolean overrideAll = gamepad2.y;
 
-//            int beltsMode = belts.getMode();
-//            boolean frontActive = frontIntake.isActive(beltsMode);
-
             launcherWheel.update(gamepad2.b, overrideAll, gamepad2.a);
-//            backIntake.update(leftStick, overrideAll, beltsMode, gamepad2.a);
-
-
-//            backBottom.update(
-//                    beltsMode,
-//                    gamepad2.left_stick_y,
-//                    overrideAll,
-//                    frontActive,
-//                    gamepad2.a
-//            );
 
             flyWheels.update(
                     gamepad2.right_bumper,
@@ -109,11 +72,8 @@ public class Decode2025 extends LinearOpMode {
             if (gamepad2.dpad_down) flyWheels.adjustTargetRPM(-20);
             if (gamepad2.dpad_left || gamepad2.dpad_right) flyWheels.setTargetRPM(flyWheels.TARGET_RPM);
 
-
-//            belts.update(rightStick, gamepad2.a);
             frontIntake.update(gamepad2.right_stick_y, gamepad2.a);
 
-//            telemetry.addData("Front Intake Active", frontActive);
 
             telemetry.update();
 
