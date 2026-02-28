@@ -74,7 +74,7 @@ public final class MecanumDrive {
         // drive model parameters
         public double inPerTick = 0.00414722654225;
         public double lateralInPerTick = 0.0034230926226253996;
-        public double trackWidthTicks = 0;
+        public double trackWidthTicks = 6875.453622269482;
 
         // feedforward parameters (in tick units)
         public double kS = 2.34146151282518;
@@ -246,6 +246,7 @@ public final class MecanumDrive {
 
         // TODO: reverse motor directions if needed
            leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+           leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // TODO: make sure your config has an IMU with this name (can be BNO or BHI)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
@@ -254,7 +255,8 @@ public final class MecanumDrive {
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
-        localizer = new PinpointLocalizer(hardwareMap, PARAMS.inPerTick, pose);
+//        localizer = new PinpointLocalizer(hardwareMap, PARAMS.inPerTick, pose);
+        localizer = new TwoDeadWheelLocalizer(hardwareMap, lazyImu.get(), PARAMS.inPerTick, pose);
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }
