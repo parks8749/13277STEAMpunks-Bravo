@@ -45,9 +45,9 @@ public class AprilTagTestBlue extends LinearOpMode {
         if (opModeIsActive()) {
             // shoot the 3 pre loaded
             // gotta edit the values to go to the limelight
-            driver.forward_tiles(-0.5);
-            driver.turn_ticks(-420,1);
-            driver.strafe_tiles(2.2,1);
+            driver.forward_tiles(-0.2);
+            driver.turn_ticks(450,1);
+            driver.strafe_tiles(-2,1);
 
             int detectedTag = detectTagByPipelines();
 

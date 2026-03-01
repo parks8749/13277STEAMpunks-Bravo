@@ -19,24 +19,24 @@ public class AprilTag21Blue extends LinearOpMode {
     Driver driver;
 //    public CRServo backBottom;
 //    public CRServo backIntake;
-    public CRServo launcherWheel;
-//    public DcMotor leftFlyWheel;
-//    public DcMotor rightFlyWheel;
+    public DcMotor launcherWheel;
+   public DcMotor leftFlyWheel;
+    public DcMotor rightFlyWheel;
 //    public CRServo rightBelt;
 //    public CRServo leftBelt;
-    public CRServo frontIntake;
+    public DcMotor frontIntake;
 
     @Override
     public void runOpMode() throws InterruptedException {
 
 //        backBottom = hardwareMap.get(CRServo.class, "BackBottom");
 //        backIntake = hardwareMap.get(CRServo.class, "BackIntake");
-        launcherWheel = hardwareMap.get(CRServo.class, "LauncherWheel");
-//        leftFlyWheel = hardwareMap.get(DcMotor.class, "leftFly");
-//        rightFlyWheel = hardwareMap.get(DcMotor.class, "rightFly");
+        launcherWheel = hardwareMap.get(DcMotor.class, "LauncherWheel");
+        leftFlyWheel = hardwareMap.get(DcMotor.class, "leftFly");
+        rightFlyWheel = hardwareMap.get(DcMotor.class, "rightFly");
 //        leftBelt = hardwareMap.get(CRServo.class, "LeftBelt");
 //        rightBelt = hardwareMap.get(CRServo.class, "RightBelt");
-        frontIntake = hardwareMap.get(CRServo.class, "FrontIntake");
+        frontIntake = hardwareMap.get(DcMotor.class, "FrontIntake");
 
 
         Pose2d beginPose = new Pose2d(new Vector2d(-47, 0), Math.toRadians(180));
@@ -78,8 +78,9 @@ public class AprilTag21Blue extends LinearOpMode {
 //                backIntake.setPower(-1.0);
 //                backBottom.setPower(-1.0);
                 launcherWheel.setPower(1.0);
-//                leftFlyWheel.setPower(-.85);
-//                rightFlyWheel.setPower(.85);
+                frontIntake.setPower(1.0);
+                leftFlyWheel.setPower(-.85);
+                rightFlyWheel.setPower(.85);
 //                rightBelt.setPower(1.0);
 //                leftBelt.setPower(-1.0);
                 return false;
@@ -96,9 +97,10 @@ public class AprilTag21Blue extends LinearOpMode {
 //                leftBelt.setPower(-1.0);
 //                backBottom.setPower(1.0);
                 launcherWheel.setPower(1.0);
+//                frontIntake.setPower(1.0);
 //                backIntake.setPower(-1.0);
-//                leftFlyWheel.setPower(-.8);
-//                rightFlyWheel.setPower(.8);
+                leftFlyWheel.setPower(-.8);
+                rightFlyWheel.setPower(.8);
                 return false;
             }
         };
@@ -123,7 +125,7 @@ public class AprilTag21Blue extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 launcherWheel.setPower(0);
-
+                frontIntake.setPower(0);
                 return false;
             }
         };
@@ -138,8 +140,9 @@ public class AprilTag21Blue extends LinearOpMode {
 //                backBottom.setPower(0);
                 launcherWheel.setPower(0);
 //                backIntake.setPower(0);
-//                leftFlyWheel.setPower(0.0);
-//                rightFlyWheel.setPower(0.0);
+                leftFlyWheel.setPower(0.0);
+                rightFlyWheel.setPower(0.0);
+                frontIntake.setPower(0.0);
                 return false;
             }
         };

@@ -53,7 +53,7 @@ public class distanceSensorTest extends LinearOpMode {
             driveTrain.Drive(gamepad1);
 
 
-            frontIntake.update(1.0f, false);
+            //frontIntake.update(1.0f, false);
 
 
             distanceSensor.update();
@@ -66,11 +66,13 @@ public class distanceSensorTest extends LinearOpMode {
 
 
             if (ballBlocking) {
-                sleep(500);
+                sleep(100);
                 launcherWheel.stop();
-                frontIntake.stop();
+                //frontIntake.update(0f, false);
+                //frontIntake.stop();
             } else {
                 launcherWheel.update(true, false, false);
+                frontIntake.update(1.0f, false);
             }
 
             telemetry.addData("Distance (in)", currentDistance);
