@@ -94,11 +94,11 @@ public class FlyWheels {
 
     private static final double TICKS_PER_REV = 103.8;
 
-    public static final double TARGET_RPM = 1320;
+    public static final double TARGET_RPM = 4500; //1320
 
     private double targetRPM = TARGET_RPM; //1350
 
-    private double maxRPM = 1700;
+    private double maxRPM = 6000;
 
 
     private static final double kP = 0.0015;
@@ -174,8 +174,10 @@ public class FlyWheels {
 
         // Next priority: global Y override (keeps previous behavior but at DEFAULT_POWER)
         if (overrideY) {
+//            rightFly.setPower(1.0);
+//            leftFly.setPower(-1.0);
             motorSpinOut();
-            spinTargetRPM(targetRPM);
+            spinTargetRPM(maxRPM);
             return;
         }
 
