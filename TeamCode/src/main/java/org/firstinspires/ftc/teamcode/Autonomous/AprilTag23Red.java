@@ -1,40 +1,25 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
-
-import androidx.annotation.NonNull;
-
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 public class AprilTag23Red {
 
-    //public CRServo backBottom;
-    //public CRServo backIntake;
     public DcMotor launcherWheel;
-    // public DcMotor leftFlyWheel;
-    //  public DcMotor rightFlyWheel;
-    // public CRServo rightBelt;
-    //   public CRServo leftBelt;
+    public DcMotor leftFlyWheel;
+    public DcMotor rightFlyWheel;
     public DcMotor frontIntake;
 
     public void run(LinearOpMode opMode) {
 
-        // Initialize hardware using opMode
-        //  backBottom = opMode.hardwareMap.get(CRServo.class, "BackBottom");
-        //  backIntake = opMode.hardwareMap.get(CRServo.class, "BackIntake");
         launcherWheel = opMode.hardwareMap.get(DcMotor.class, "LauncherWheel");
-        // leftFlyWheel = opMode.hardwareMap.get(DcMotor.class, "leftFly");
-        //  rightFlyWheel = opMode.hardwareMap.get(DcMotor.class, "rightFly");
-        //  leftBelt = opMode.hardwareMap.get(CRServo.class, "LeftBelt");
-        //  rightBelt = opMode.hardwareMap.get(CRServo.class, "RightBelt");
+        leftFlyWheel = opMode.hardwareMap.get(DcMotor.class, "leftFly");
+        rightFlyWheel = opMode.hardwareMap.get(DcMotor.class, "rightFly");
         frontIntake = opMode.hardwareMap.get(DcMotor.class, "FrontIntake");
 
         Pose2d beginPose = new Pose2d(new Vector2d(-47, 0), Math.toRadians(232));
@@ -42,6 +27,7 @@ public class AprilTag23Red {
 
         // Build trajectory
         Action path = drive.actionBuilder(beginPose)
+                //ppg red
                 .splineTo(new Vector2d(-12, 25), Math.toRadians(90))
                 .stopAndAdd(intakeStack())
                 .strafeTo(new Vector2d(-12, 54))
@@ -64,28 +50,12 @@ public class AprilTag23Red {
         Actions.runBlocking(new SequentialAction(path));
     }
 
-    public Action shootBackIntake() {
-        return packet -> {
-            // backIntake.setPower(-1.0);
-            // backBottom.setPower(-1.0);
-            launcherWheel.setPower(1.0);
-            //  leftFlyWheel.setPower(-.85);
-            //rightFlyWheel.setPower(.85);
-            //rightBelt.setPower(1.0);
-            //leftBelt.setPower(-1.0);
-            return false;
-        };
-    }
-
     public Action shootFrontIntake() {
         return packet -> {
-            //   rightBelt.setPower(1.0);
-            //   leftBelt.setPower(-1.0);
-            //   backBottom.setPower(1.0);
             launcherWheel.setPower(1.0);
-            // backIntake.setPower(-1.0);
-            //leftFlyWheel.setPower(-.8);
-            //rightFlyWheel.setPower(.8);
+            leftFlyWheel.setPower(-.8);
+            rightFlyWheel.setPower(.8);
+            frontIntake.setPower(1.0);
             return false;
         };
     }
@@ -93,10 +63,7 @@ public class AprilTag23Red {
     public Action intakeStack() {
         return packet -> {
             frontIntake.setPower(1.0);
-            // rightBelt.setPower(1.0);
-            // leftBelt.setPower(-1.0);
             launcherWheel.setPower(1.0);
-            //  backIntake.setPower(-1.0);
             return false;
         };
     }
@@ -104,19 +71,17 @@ public class AprilTag23Red {
     public Action stopIntake() {
         return packet -> {
             launcherWheel.setPower(0);
+            frontIntake.setPower(0);
             return false;
         };
     }
 
     public Action stopAll() {
         return packet -> {
-            //   rightBelt.setPower(0);
-            // leftBelt.setPower(0);
-            //ackBottom.setPower(0);
             launcherWheel.setPower(0);
-            //backIntake.setPower(0);
-            //leftFlyWheel.setPower(0.0);
-            // rightFlyWheel.setPower(0.0);
+            frontIntake.setPower(0);
+            leftFlyWheel.setPower(0.0);
+            rightFlyWheel.setPower(0.0);
             return false;
         };
     }
