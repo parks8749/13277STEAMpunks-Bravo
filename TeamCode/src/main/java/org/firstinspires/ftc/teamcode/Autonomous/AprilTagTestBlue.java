@@ -44,8 +44,7 @@ public class AprilTagTestBlue extends LinearOpMode {
                     .stopAndAdd(shootFrontIntake())
                     .waitSeconds(3)
                     .stopAndAdd(stopAll())
-//                    .splineTo(new Vector2d(-47, 0), Math.toRadians(0))
-                    .splineToLinearHeading(new Pose2d(-47,0,Math.toRadians(180)), Math.toRadians(0))
+                    .strafeToLinearHeading(new Vector2d(-47,0),Math.toRadians(180))
                     .build();
 
             Actions.runBlocking(new SequentialAction(launchSequence));

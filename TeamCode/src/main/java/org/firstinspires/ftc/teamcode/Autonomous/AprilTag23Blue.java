@@ -25,29 +25,29 @@ public class AprilTag23Blue {
         rightFlyWheel = opMode.hardwareMap.get(DcMotor.class, "rightFly");
         frontIntake = opMode.hardwareMap.get(DcMotor.class, "FrontIntake");
 
-        Pose2d beginPose = new Pose2d(new Vector2d(-47, 0), Math.toRadians(232));
+        Pose2d beginPose = new Pose2d(new Vector2d(-47, 0), Math.toRadians(180));
         MecanumDrive drive = new MecanumDrive(opMode.hardwareMap, beginPose);
 
         // Build trajectory
         Action path = drive.actionBuilder(beginPose)
                //ppg blue
-                .splineTo(new Vector2d(-12, -25), Math.toRadians(270))
-                .stopAndAdd(intakeStack())
-                .strafeTo(new Vector2d(-12,-54))
-                .strafeTo(new Vector2d(-12,-25))
-                .splineToLinearHeading(new Pose2d(-45, -45, Math.toRadians(240)), Math.toRadians(230))
-                .stopAndAdd(shootFrontIntake())
-                .waitSeconds(5)
-                .stopAndAdd(stopAll())
-                .splineToLinearHeading(new Pose2d(12, -25, Math.toRadians(270)), Math.toRadians(230))
-                .stopAndAdd(intakeStack())
-                .strafeTo(new Vector2d(12,-54))
-                .strafeTo(new Vector2d(12,-30))
-                .splineToLinearHeading(new Pose2d(-45, -45, Math.toRadians(240)), Math.toRadians(230))
-                .stopAndAdd(shootFrontIntake())
-                .waitSeconds(5)
-                .stopAndAdd(stopAll())
-                .strafeTo(new Vector2d(-60,-33))
+                .strafeToLinearHeading(new Vector2d(-12, -25), Math.toRadians(270))
+//                .stopAndAdd(intakeStack())
+                .strafeTo(new Vector2d(-12,-50))
+                .strafeTo(new Vector2d(-12,-45))
+                .strafeToLinearHeading(new Vector2d(-45, -39), Math.toRadians(232))
+//                .stopAndAdd(shootFrontIntake())
+//                .waitSeconds(5)
+//                .stopAndAdd(stopAll())
+                .strafeToLinearHeading(new Vector2d(12, -25), Math.toRadians(270))
+//                .stopAndAdd(intakeStack())
+                .strafeTo(new Vector2d(12,-50))
+                .strafeTo(new Vector2d(12,-45))
+                .strafeToLinearHeading(new Vector2d(-45,-39), Math.toRadians(232))
+//                .stopAndAdd(shootFrontIntake())
+//                .waitSeconds(5)
+//                .stopAndAdd(stopAll())
+                .strafeTo(new Vector2d(-56,-34))
                 .build();
 
         Actions.runBlocking(new SequentialAction(path));
