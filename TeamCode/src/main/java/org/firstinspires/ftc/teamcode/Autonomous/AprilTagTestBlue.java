@@ -1,5 +1,4 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
-
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -31,7 +30,7 @@ public class AprilTagTestBlue extends LinearOpMode {
         leftFlyWheel = hardwareMap.get(DcMotor.class, "leftFly");
         rightFlyWheel = hardwareMap.get(DcMotor.class, "rightFly");
         frontIntake = hardwareMap.get(DcMotor.class, "FrontIntake");
-        Pose2d beginPose = new Pose2d(new Vector2d(-53, -47), Math.toRadians(135));
+        Pose2d beginPose = new Pose2d(new Vector2d(-53, -47), Math.toRadians(232));
         MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
 
         telemetry.addData("Status", "Initialized");
@@ -41,16 +40,17 @@ public class AprilTagTestBlue extends LinearOpMode {
 
         if (opModeIsActive()) {
             Action launchSequence = drive.actionBuilder(beginPose)
-                    .splineTo(new Vector2d(-46, -39), Math.toRadians(0))
+                    .strafeTo(new Vector2d(-46,-39))
                     .stopAndAdd(shootFrontIntake())
                     .waitSeconds(3)
                     .stopAndAdd(stopAll())
+//                    .splineTo(new Vector2d(-47, 0), Math.toRadians(0))
+                    .splineToLinearHeading(new Pose2d(-47,0,Math.toRadians(180)), Math.toRadians(0))
                     .build();
 
             Actions.runBlocking(new SequentialAction(launchSequence));
             Pose2d afterLaunchPose = drive.localizer.getPose();
             Action toScanPosition = drive.actionBuilder(afterLaunchPose)
-                    .splineTo(new Vector2d(-47, 0), Math.toRadians(232))
                     .build();
             Actions.runBlocking(new SequentialAction(toScanPosition));
 
@@ -82,7 +82,6 @@ public class AprilTagTestBlue extends LinearOpMode {
         sleep(200);
         LLResult p9 = limelight.getLatestResult();
         if (p9 != null && p9.isValid()) return 23;
-
         return 23;
     }
     public Action shootFrontIntake() {
