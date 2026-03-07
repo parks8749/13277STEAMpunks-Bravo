@@ -1,4 +1,3 @@
-// rugvedh's decode update last 3/6/25
 package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -23,7 +22,6 @@ public class Decode2025 extends LinearOpMode {
     public DistanceSensor distanceSensor;
 
     public ColorSensor sensorColor;
-
 
     private static final float STICK_DEADZONE = 0.08f;
     private static final double BALL_DETECT_DISTANCE = 4.0;
@@ -55,7 +53,6 @@ public class Decode2025 extends LinearOpMode {
         distanceSensor = new DistanceSensor(hardwareMap, "DistanceSensor");
         sensorColor = new ColorSensor(hardwareMap, "ColorSensor");
 
-
         launcherWheel.init();
         flyWheels.init();
         frontIntake.init();
@@ -69,12 +66,12 @@ public class Decode2025 extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            // testing for PIDF values
+
             if(gamepad1.xWasPressed()){
                 flyWheels.changeHighVelocity(10);
             }
 
-            if(gamepad1.yWasPressed()){
+            if(gamepad1.yWasPressed() || gamepad1.right_bumper){
                 flyWheels.toggleVelocities();
                 flyWheels.updateFlywheelChanges(telemetry);
             }
@@ -104,7 +101,6 @@ public class Decode2025 extends LinearOpMode {
                 flyWheels.updateFlywheelChanges(telemetry);
             }
 
-
             driveTrain.Drive(gamepad1);
 
             float leftStick  = applyDeadzone(gamepad2.left_stick_y, STICK_DEADZONE);
@@ -113,25 +109,20 @@ public class Decode2025 extends LinearOpMode {
             boolean overrideAll = gamepad2.y;
             boolean shootPressed = gamepad2.a;
 
-
             distanceSensor.update();
             sensorColor.update();
 
-//            double currentDistance = distanceSensor.getDistance();
             double currentDistance = sensorColor.getDistance();
-
 
             boolean ballDetected =
                     currentDistance > 0 &&
                             currentDistance < MAX_VALID_DISTANCE &&
                             currentDistance < BALL_DETECT_DISTANCE;
 
-            //The main stuff for the logic of the launcher
             if (overrideAll || shootPressed) {
                 launcherStopped = false;
                 launcherWheel.update(gamepad2.b, overrideAll, gamepad2.a);
             } else if (ballDetected && !launcherStopped) {
-                // Ball detected — stop instantly
                 launcherStopped = true;
                 launcherWheel.stop();
             } else if (launcherStopped) {
@@ -140,9 +131,6 @@ public class Decode2025 extends LinearOpMode {
                 launcherWheel.update(false, true, false);
             }
 
-            //when the distance sensor senses it, it makes the intake the front intake drag the ball in
-            // the thing why its not frontintake setpower and why its .update is because im a bad coder
-            //-Rugvedh
             if (overrideAll) {
                 frontIntake.update(1f, false);
             } else {
@@ -155,10 +143,6 @@ public class Decode2025 extends LinearOpMode {
                     gamepad2.x,
                     overrideAll
             );
-
-//            if (gamepad2.dpad_up)   flyWheels.adjustTargetRPM(20);
-//            if (gamepad2.dpad_down) flyWheels.adjustTargetRPM(-20);
-//            if (gamepad2.dpad_left || gamepad2.dpad_right) flyWheels.setTargetRPM(flyWheels.TARGET_RPM);
 
             telemetry.addData("Distance (in)", currentDistance);
             telemetry.addData("Ball Detected", ballDetected);
@@ -176,5 +160,3 @@ public class Decode2025 extends LinearOpMode {
         return Math.abs(val) < dz ? 0.0f : val;
     }
 }
-
-//hi

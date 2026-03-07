@@ -97,7 +97,6 @@ public class FlyWheels {
             return;
         }
 
-//         Normal bumper-driven control (existing-style)
         if (rightBumper) {
             motorSpinOut();
             spinTargetRPM(targetRPM);
@@ -107,9 +106,9 @@ public class FlyWheels {
         } else if (leftBumper) {
             motorSpinIn();
             spinTargetRPM(targetRPM);
+
         } else {
-            leftFly.setPower(0.0);
-            rightFly.setPower(0.0);
+            stop();
         }
     }
 
@@ -220,6 +219,11 @@ public class FlyWheels {
        rightFly.setVelocity(currTargetVelocity);
        leftFly.setVelocity(currTargetVelocity);
    }
+
+    public boolean isAtSpeed() {
+        double currVelocity = (leftFly.getVelocity() + Math.abs(rightFly.getVelocity())) / 2;
+        return Math.abs(currTargetVelocity - currVelocity) < 50;
+    }
 
    public void getVelocityAndError(Telemetry telemetry){
        double currVelocity = (leftFly.getVelocity() + Math.abs(rightFly.getVelocity()))/2;
