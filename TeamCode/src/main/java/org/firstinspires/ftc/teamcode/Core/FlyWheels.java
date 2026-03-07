@@ -19,14 +19,13 @@ public class FlyWheels {
 
     public static final double TARGET_RPM = 4500; //please do not change this; change F or P
 
-    private double targetRPM = TARGET_RPM; //1350
+    private double targetRPM = TARGET_RPM;
 
-    private double maxRPM = 6000;
+    private double maxRPM = 6000; // please do not change this; change F or P
 
     private double kF = 32767 / 2900;
 
 
-    // fallback encoder-delta tracking (used if DcMotorEx velocity is not available)
     private int lastLeftPos = 0;
     private int lastRightPos = 0;
     private long lastTimeMs = 0;
@@ -90,10 +89,7 @@ public class FlyWheels {
             return;
         }
 
-        // Next priority: global Y override (keeps previous behavior but at DEFAULT_POWER)
         if (overrideY) {
-//            rightFly.setPower(1.0);
-//            leftFly.setPower(-1.0);
             motorSpinOut();
             spinTargetRPM(maxRPM);
             return;
