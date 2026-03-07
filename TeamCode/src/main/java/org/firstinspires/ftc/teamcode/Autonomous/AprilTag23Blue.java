@@ -58,8 +58,8 @@ public class AprilTag23Blue {
     public Action shootFrontIntake() {
         return packet -> {
             launcherWheel.setPower(-1.0);
-            leftFlyWheel.setPower(-.63);
-            rightFlyWheel.setPower(.63);
+            leftFlyWheel.setPower(-.7);
+            rightFlyWheel.setPower(.7);
             frontIntake.setPower(-1.0);
             return false;
         };
@@ -68,8 +68,8 @@ public class AprilTag23Blue {
     public Action activateFlyWheels()
     {
         return packet -> {
-            leftFlyWheel.setPower(-0.63);
-            rightFlyWheel.setPower(0.63);
+            leftFlyWheel.setPower(-0.7);
+            rightFlyWheel.setPower(0.7);
             return false;
         };
     }
