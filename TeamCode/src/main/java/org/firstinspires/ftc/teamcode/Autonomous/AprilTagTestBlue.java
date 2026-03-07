@@ -40,11 +40,12 @@ public class AprilTagTestBlue extends LinearOpMode {
 
         if (opModeIsActive()) {
             Action launchSequence = drive.actionBuilder(beginPose)
-                    .strafeTo(new Vector2d(-46,-39))
+                    .stopAndAdd(activateFlyWheels())
+                    .strafeTo(new Vector2d(-40,-34))
                     .stopAndAdd(shootFrontIntake())
-                    .waitSeconds(3)
+                    .waitSeconds(2)
                     .stopAndAdd(stopAll())
-                    .strafeToLinearHeading(new Vector2d(-47,0),Math.toRadians(180))
+                    .strafeToLinearHeading(new Vector2d(-52,0),Math.toRadians(180))
                     .build();
 
             Actions.runBlocking(new SequentialAction(launchSequence));
@@ -86,8 +87,8 @@ public class AprilTagTestBlue extends LinearOpMode {
     public Action shootFrontIntake() {
         return packet -> {
             launcherWheel.setPower(-1.0);
-            leftFlyWheel.setPower(-0.85);
-            rightFlyWheel.setPower(0.85);
+            leftFlyWheel.setPower(-0.63);
+            rightFlyWheel.setPower(0.63);
             frontIntake.setPower(-1.0);
             return false;
         };
@@ -98,6 +99,21 @@ public class AprilTagTestBlue extends LinearOpMode {
             frontIntake.setPower(0);
             leftFlyWheel.setPower(0);
             rightFlyWheel.setPower(0);
+            return false;
+        };
+    }
+    public Action activateFlyWheels()
+    {
+        return packet -> {
+            leftFlyWheel.setPower(-0.63);
+            rightFlyWheel.setPower(0.63);
+            return false;
+        };
+    }
+    public Action stopFlywheels() {
+        return packet -> {
+            rightFlyWheel.setPower(0);
+            leftFlyWheel.setPower(0);
             return false;
         };
     }
