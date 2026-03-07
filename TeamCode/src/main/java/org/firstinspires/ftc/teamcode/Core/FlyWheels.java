@@ -36,7 +36,7 @@ public class FlyWheels {
 
     double currTargetVelocity = highVelocity;
 
-    double F = 1.6;
+    double F = 0.8;
     double P = 1.0;
 
     double[] stepSizes = {10.0, 1.0, 0.1, 0.001};
@@ -85,28 +85,27 @@ public class FlyWheels {
 
         if (xPressed) {
             motorSpinOut();
-            spinTargetRPM(maxRPM);
+            spinTargetRPM();
             return;
         }
 
         if (overrideY) {
             motorSpinOut();
-            spinTargetRPM(maxRPM);
-            F = 1.4;
-            P = 1;
+            spinTargetRPM();
+
             return;
         }
 
 //         Normal bumper-driven control (existing-style)
         if (rightBumper) {
             motorSpinOut();
-            spinTargetRPM(targetRPM);
-            F = 1.2;
+            spinTargetRPM();
+            F = 1;
             P = 0.9;
 
         } else if (leftBumper) {
-            motorSpinIn();
-            spinTargetRPM(targetRPM);
+            motorSpinOut();
+            spinTargetRPM();
         } else {
             leftFly.setPower(0.0);
             rightFly.setPower(0.0);
@@ -123,12 +122,10 @@ public class FlyWheels {
         rightFly.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
-    public void spinTargetRPM(double targetRPM){
-        double targetTicks = rpmToTicks(targetRPM);
-
+    public void spinTargetRPM(){
         if (leftFly != null && rightFly != null) {
-            leftFly.setVelocity(targetTicks);
-            rightFly.setVelocity(targetTicks);
+            leftFly.setVelocity(currTargetVelocity);
+            rightFly.setVelocity(currTargetVelocity);
         }
     }
     public void stop() {

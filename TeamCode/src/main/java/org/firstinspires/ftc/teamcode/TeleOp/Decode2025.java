@@ -53,7 +53,40 @@ public class Decode2025 extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
+            // testing for PIDF values
+            if(gamepad1.xWasPressed()){
+                flyWheels.changeHighVelocity(10);
+            }
 
+            if(gamepad1.yWasPressed()){
+                flyWheels.toggleVelocities();
+                flyWheels.updateFlywheelChanges(telemetry);
+            }
+
+            if(gamepad1.bWasPressed()){
+                flyWheels.changeStepIndex();
+                flyWheels.updateFlywheelChanges(telemetry);
+            }
+
+            if(gamepad1.dpadLeftWasPressed()){
+                flyWheels.incrF();
+                flyWheels.updateFlywheelChanges(telemetry);
+            }
+
+            if(gamepad1.dpadRightWasPressed()){
+                flyWheels.decrF();
+                flyWheels.updateFlywheelChanges(telemetry);
+            }
+
+            if(gamepad1.dpadUpWasPressed()){
+                flyWheels.incrP();
+                flyWheels.updateFlywheelChanges(telemetry);
+            }
+
+            if(gamepad1.dpadDownWasPressed()){
+                flyWheels.decrP();
+                flyWheels.updateFlywheelChanges(telemetry);
+            }
 
             driveTrain.Drive(gamepad1);
 
