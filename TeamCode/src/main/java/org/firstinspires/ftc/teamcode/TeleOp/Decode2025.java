@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+import org.firstinspires.ftc.teamcode.Core.ColorSensor;
 import org.firstinspires.ftc.teamcode.Core.DriveTrain;
 import org.firstinspires.ftc.teamcode.Core.FlyWheels;
 import org.firstinspires.ftc.teamcode.Core.FrontIntake;
@@ -20,6 +21,9 @@ public class Decode2025 extends LinearOpMode {
     public FlyWheels flyWheels;
     public FrontIntake frontIntake;
     public DistanceSensor distanceSensor;
+
+    public ColorSensor sensorColor;
+
 
     private static final float STICK_DEADZONE = 0.08f;
     private static final double BALL_DETECT_DISTANCE = 4.0;
@@ -49,11 +53,15 @@ public class Decode2025 extends LinearOpMode {
         );
 
         distanceSensor = new DistanceSensor(hardwareMap, "DistanceSensor");
+        sensorColor = new ColorSensor(hardwareMap, "ColorSensor");
+
 
         launcherWheel.init();
         flyWheels.init();
         frontIntake.init();
+
         distanceSensor.init();
+        sensorColor.init();
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -107,7 +115,11 @@ public class Decode2025 extends LinearOpMode {
 
 
             distanceSensor.update();
-            double currentDistance = distanceSensor.getDistance();
+            sensorColor.update();
+
+//            double currentDistance = distanceSensor.getDistance();
+            double currentDistance = sensorColor.getDistance();
+
 
             boolean ballDetected =
                     currentDistance > 0 &&
@@ -156,6 +168,7 @@ public class Decode2025 extends LinearOpMode {
             flyWheels.getVelocityAndError(telemetry);
 
             sleep(10);
+
         }
     }
 
