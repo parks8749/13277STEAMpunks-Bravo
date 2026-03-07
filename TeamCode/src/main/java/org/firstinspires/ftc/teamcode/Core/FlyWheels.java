@@ -1,72 +1,3 @@
-//package org.firstinspires.ftc.teamcode.Core;
-//
-//import com.qualcomm.robotcore.hardware.DcMotor;
-//import com.qualcomm.robotcore.hardware.DcMotorSimple;
-//
-//public class FlyWheels {
-//
-//    private final DcMotor leftFly;
-//    private final DcMotor rightFly;
-//
-//    // default (current) operating power
-//    private static final double DEFAULT_POWER = 0.85;
-//    // full power when X is pressed
-//    private static final double FULL_POWER = 1.0;
-//
-//    public FlyWheels(DcMotor leftFly, DcMotor rightFly) {
-//        this.leftFly = leftFly;
-//        this.rightFly = rightFly;
-//    }
-//
-//    public void init() {
-//        // set directions so same positive power spins the wheels in the shooting direction
-//        leftFly.setDirection(DcMotorSimple.Direction.FORWARD);
-//        rightFly.setDirection(DcMotorSimple.Direction.REVERSE);
-//        leftFly.setPower(0.0);
-//        rightFly.setPower(0.0);
-//    }
-//
-//    /**
-//     * @param rightBumper  => spin forward at default power while held
-//     * @param leftBumper   => spin reverse at default power while held
-//     * @param xPressed     => override and run BOTH flywheels at FULL_POWER (1.0) while held
-//     * @param overrideY    => (existing Y override) spins them at DEFAULT_POWER while held
-//     */
-//    public void update(boolean rightBumper, boolean leftBumper, boolean xPressed, boolean overrideY) {
-//
-//        // Highest-priority: X forces FULL power
-//        if (xPressed) {
-//            leftFly.setPower(-FULL_POWER);
-//            rightFly.setPower(-FULL_POWER);
-//            return;
-//        }
-//
-//        // Next priority: global Y override (keeps previous behavior but at DEFAULT_POWER)
-//        if (overrideY) {
-//            leftFly.setPower(-DEFAULT_POWER);
-//            rightFly.setPower(-DEFAULT_POWER);
-//            return;
-//        }
-//
-//        // Normal bumper-driven control (existing-style)
-//        if (rightBumper) {
-//            leftFly.setPower(-DEFAULT_POWER);
-//            rightFly.setPower(-DEFAULT_POWER);
-//        } else if (leftBumper) {
-//            leftFly.setPower(DEFAULT_POWER);
-//            rightFly.setPower(DEFAULT_POWER);
-//        } else {
-//            leftFly.setPower(0.0);
-//            rightFly.setPower(0.0);
-//        }
-//    }
-//
-//    public void stop() {
-//        leftFly.setPower(0.0);
-//        rightFly.setPower(0.0);
-//    }
-//}
-
 
 package org.firstinspires.ftc.teamcode.Core;
 
@@ -84,30 +15,16 @@ public class FlyWheels {
     private DcMotorEx leftFly;
     private DcMotorEx rightFly;
 
-
-    // default (current) operating power
-    private static final double DEFAULT_POWER = 1.0;
-    // full power when X is pressed
-    private static final double FULL_POWER = 1.0;
-
     private static final double TICKS_PER_REV = 103.8;
 
-    public static final double TARGET_RPM = 4500; //1320
+    public static final double TARGET_RPM = 4500; //please do not change this; change F or P
 
     private double targetRPM = TARGET_RPM; //1350
 
     private double maxRPM = 6000;
 
-
-    private static final double kP = 0.0015;
-    private static final double kI = 0.0;
-    private static final double kD = 0.0001;
     private double kF = 32767 / 2900;
 
-    private boolean velocityMode = false;
-
-    private double leftMaxVelocity = 0.0;
-    private double rightMaxVelocity = 0.0;
 
     // fallback encoder-delta tracking (used if DcMotorEx velocity is not available)
     private int lastLeftPos = 0;
@@ -157,11 +74,6 @@ public class FlyWheels {
 
         double maxTicksPerSec = (maxRPM * TICKS_PER_REV) / 60.0;
         kF = 32767.0 / maxTicksPerSec;
-
-//        if (leftFly != null && rightFly != null) {
-//            leftFly.setVelocityPIDFCoefficients(kP, kI, kD, kF);
-//            rightFly.setVelocityPIDFCoefficients(kP, kI, kD, kF);
-//        }
     }
 
     /**
@@ -258,21 +170,6 @@ public class FlyWheels {
             lastRightPos = curRight;
             lastTimeMs = nowMs;
         }
-
-//        // get ticks-per-rev from the configured motor type (works even if unspecified)
-//        double leftTicksPerRev  =103.8;
-//        double rightTicksPerRev = 103.8;
-//
-//        // avoid divide-by-zero if something is misconfigured
-//        if (leftTicksPerRev <= 0.0) leftTicksPerRev = 1.0;
-//        if (rightTicksPerRev <= 0.0) rightTicksPerRev = 1.0;
-//
-//        // convert to RPM
-//        double leftRPM  = (leftTicksPerSec  / leftTicksPerRev)  * 60.0;
-//        if (leftRPM > leftMaxVelocity) leftMaxVelocity = leftRPM;
-//
-//        double rightRPM = (rightTicksPerSec / rightTicksPerRev) * 60.0;
-//        if (rightRPM > rightMaxVelocity) rightMaxVelocity = rightRPM;
 
     }
 
