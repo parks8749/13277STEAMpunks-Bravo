@@ -29,19 +29,19 @@ public class AprilTag21Red {
         // Build trajectory
         Action path = drive.actionBuilder(beginPose)
                 //GPP Red
-                .strafeToLinearHeading(new Vector2d(36, 30), Math.toRadians(92))
+                .strafeToLinearHeading(new Vector2d(37, 25), Math.toRadians(92))
                 .stopAndAdd(intakeStack())
-                .strafeTo(new Vector2d(36,55))
-                .strafeTo(new Vector2d(36,10))
+                .strafeTo(new Vector2d(37,60))
+                .strafeTo(new Vector2d(37,40))
                 .stopAndAdd(activateFlyWheels())
-                .strafeToLinearHeading(new Vector2d(-40,34), Math.toRadians(128))
+                .splineToLinearHeading(new Pose2d(-40,35,Math.toRadians(128)), Math.toRadians(100))
                 .stopAndAdd(shootFrontIntake())
                 .waitSeconds(2)
                 .stopAndAdd(stopAll())
-                .strafeToLinearHeading(new Vector2d(-11, 28), Math.toRadians(92))
+                .strafeToLinearHeading(new Vector2d(-10, 25), Math.toRadians(92))
                 .stopAndAdd(intakeStack())
-                .strafeTo(new Vector2d(-11,55))
-                .strafeTo(new Vector2d(-11,40))
+                .strafeTo(new Vector2d(-10,55))
+                .strafeTo(new Vector2d(-10,50))
                 .stopAndAdd(activateFlyWheels())
                 .strafeToLinearHeading(new Vector2d(-40, 34), Math.toRadians(128))
                 .stopAndAdd(shootFrontIntake())
@@ -56,8 +56,8 @@ public class AprilTag21Red {
     public Action shootFrontIntake() {
         return packet -> {
             launcherWheel.setPower(1.0);
-            leftFlyWheel.setPower(-.8);
-            rightFlyWheel.setPower(.8);
+            leftFlyWheel.setPower(-.7);
+            rightFlyWheel.setPower(.7);
             frontIntake.setPower(1.0);
             return false;
         };
@@ -90,8 +90,8 @@ public class AprilTag21Red {
     public Action activateFlyWheels()
     {
         return packet -> {
-            leftFlyWheel.setPower(-0.63);
-            rightFlyWheel.setPower(0.63);
+            leftFlyWheel.setPower(-0.7);
+            rightFlyWheel.setPower(0.7);
             return false;
         };
     }
