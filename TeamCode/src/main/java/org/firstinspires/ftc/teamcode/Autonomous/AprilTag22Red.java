@@ -64,7 +64,6 @@ public class AprilTag22Red {
     public Action intakeStack() {
         return packet -> {
             frontIntake.setPower(1.0);
-            launcherWheel.setPower(1.0);
             return false;
         };
     }
