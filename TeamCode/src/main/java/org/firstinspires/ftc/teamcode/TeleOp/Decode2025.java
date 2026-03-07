@@ -5,12 +5,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-import org.firstinspires.ftc.teamcode.Core.ColorSensor;
 import org.firstinspires.ftc.teamcode.Core.DriveTrain;
 import org.firstinspires.ftc.teamcode.Core.FlyWheels;
 import org.firstinspires.ftc.teamcode.Core.FrontIntake;
 import org.firstinspires.ftc.teamcode.Core.LauncherWheel;
-import org.firstinspires.ftc.teamcode.Core.DistanceSensor;
 
 @TeleOp(name="Decode2025", group="TeleOp")
 public class Decode2025 extends LinearOpMode {
@@ -19,15 +17,8 @@ public class Decode2025 extends LinearOpMode {
     public LauncherWheel launcherWheel;
     public FlyWheels flyWheels;
     public FrontIntake frontIntake;
-    public DistanceSensor distanceSensor;
-
-    public ColorSensor sensorColor;
 
     private static final float STICK_DEADZONE = 0.08f;
-    private static final double BALL_DETECT_DISTANCE = 4.0;
-    private static final double MAX_VALID_DISTANCE = 20.0;
-
-    private boolean launcherStopped = false;
 
     @Override
     public void runOpMode() {
@@ -50,15 +41,10 @@ public class Decode2025 extends LinearOpMode {
                 hardwareMap.get(DcMotorEx.class, "rightFly")
         );
 
-        distanceSensor = new DistanceSensor(hardwareMap, "DistanceSensor");
-        sensorColor = new ColorSensor(hardwareMap, "ColorSensor");
-
+        // Init all subsystems
         launcherWheel.init();
         flyWheels.init();
         frontIntake.init();
-
-        distanceSensor.init();
-        sensorColor.init();
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -67,39 +53,7 @@ public class Decode2025 extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            if(gamepad1.xWasPressed()){
-                flyWheels.changeHighVelocity(10);
-            }
 
-            if(gamepad1.yWasPressed() || gamepad1.right_bumper){
-                flyWheels.toggleVelocities();
-                flyWheels.updateFlywheelChanges(telemetry);
-            }
-
-            if(gamepad1.bWasPressed()){
-                flyWheels.changeStepIndex();
-                flyWheels.updateFlywheelChanges(telemetry);
-            }
-
-            if(gamepad1.dpadLeftWasPressed()){
-                flyWheels.incrF();
-                flyWheels.updateFlywheelChanges(telemetry);
-            }
-
-            if(gamepad1.dpadRightWasPressed()){
-                flyWheels.decrF();
-                flyWheels.updateFlywheelChanges(telemetry);
-            }
-
-            if(gamepad1.dpadUpWasPressed()){
-                flyWheels.incrP();
-                flyWheels.updateFlywheelChanges(telemetry);
-            }
-
-            if(gamepad1.dpadDownWasPressed()){
-                flyWheels.decrP();
-                flyWheels.updateFlywheelChanges(telemetry);
-            }
 
             driveTrain.Drive(gamepad1);
 
@@ -107,35 +61,8 @@ public class Decode2025 extends LinearOpMode {
             float rightStick = applyDeadzone(gamepad2.right_stick_y, STICK_DEADZONE);
 
             boolean overrideAll = gamepad2.y;
-            boolean shootPressed = gamepad2.a;
 
-            distanceSensor.update();
-            sensorColor.update();
-
-            double currentDistance = sensorColor.getDistance();
-
-            boolean ballDetected =
-                    currentDistance > 0 &&
-                            currentDistance < MAX_VALID_DISTANCE &&
-                            currentDistance < BALL_DETECT_DISTANCE;
-
-            if (overrideAll || shootPressed) {
-                launcherStopped = false;
-                launcherWheel.update(gamepad2.b, overrideAll, gamepad2.a);
-            } else if (ballDetected && !launcherStopped) {
-                launcherStopped = true;
-                launcherWheel.stop();
-            } else if (launcherStopped) {
-                launcherWheel.stop();
-            } else {
-                launcherWheel.update(false, true, false);
-            }
-
-            if (overrideAll) {
-                frontIntake.update(1f, false);
-            } else {
-                frontIntake.update(gamepad2.right_stick_y, gamepad2.a);
-            }
+            launcherWheel.update(gamepad2.b, overrideAll, gamepad2.a);
 
             flyWheels.update(
                     gamepad2.right_bumper,
@@ -144,15 +71,18 @@ public class Decode2025 extends LinearOpMode {
                     overrideAll
             );
 
-            telemetry.addData("Distance (in)", currentDistance);
-            telemetry.addData("Ball Detected", ballDetected);
-            telemetry.addData("Launcher Stopped", launcherStopped);
+            if (gamepad2.dpad_up)   flyWheels.adjustTargetRPM(20);
+            if (gamepad2.dpad_down) flyWheels.adjustTargetRPM(-20);
+            if (gamepad2.dpad_left || gamepad2.dpad_right) flyWheels.setTargetRPM(flyWheels.TARGET_RPM);
+
+            frontIntake.update(gamepad2.right_stick_y, gamepad2.a);
+
+
             telemetry.update();
 
-            flyWheels.getVelocityAndError(telemetry);
+            flyWheels.publishTelemetry(telemetry);
 
             sleep(10);
-
         }
     }
 
