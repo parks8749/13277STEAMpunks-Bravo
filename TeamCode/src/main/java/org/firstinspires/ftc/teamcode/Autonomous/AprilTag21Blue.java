@@ -29,21 +29,24 @@ public class AprilTag21Blue {
 
         Action path = drive.actionBuilder(beginPose)
                 //GPP Blue
-                .strafeToLinearHeading(new Vector2d(36, -28), Math.toRadians(272))
-//                .stopAndAdd(intakeStack())
-                .strafeTo(new Vector2d(36,-55))
-                .strafeTo(new Vector2d(36,-35))
-                .splineToLinearHeading(new Pose2d(-46, -39, Math.toRadians(232)), Math.toRadians(200))
-//                .stopAndAdd(shootFrontIntake())
-//                .waitSeconds(5)
-//                .stopAndAdd(stopAll())
-                .strafeToLinearHeading(new Vector2d(-12,-24), Math.toRadians(272))
-//                .stopAndAdd(intakeStack())
-                .strafeTo(new Vector2d(-12,-55))
-//                .stopAndAdd(shootFrontIntake())
-//                .stopAndAdd(stopAll())
-                .strafeToLinearHeading(new Vector2d(-46, -39), Math.toRadians(232))
-                .strafeTo(new Vector2d(-59,-37))
+                .strafeToLinearHeading(new Vector2d(50, -15), Math.toRadians(272))
+                .stopAndAdd(intakeStack())
+                .strafeTo(new Vector2d(50,-55))
+                .strafeTo(new Vector2d(50,-15))
+                .stopAndAdd(activateFlyWheels())
+                .strafeToLinearHeading(new Vector2d(-40,-34), Math.toRadians(232))
+                .stopAndAdd(shootFrontIntake())
+                .waitSeconds(2)
+                .stopAndAdd(stopAll())
+                .strafeToLinearHeading(new Vector2d(0,-10), Math.toRadians(272))
+                .stopAndAdd(intakeStack())
+                .strafeTo(new Vector2d(0,-50))
+                .strafeTo(new Vector2d(0,-30))
+                .stopAndAdd(activateFlyWheels())
+                .strafeToLinearHeading(new Vector2d(-40, -34), Math.toRadians(232))
+                .stopAndAdd(shootFrontIntake())
+                .stopAndAdd(stopAll())
+                .strafeTo(new Vector2d(-56,-34))
                 .build();
 
         Actions.runBlocking(new SequentialAction(path));
@@ -81,6 +84,14 @@ public class AprilTag21Blue {
             frontIntake.setPower(0);
             leftFlyWheel.setPower(0.0);
             rightFlyWheel.setPower(0.0);
+            return false;
+        };
+    }
+    public Action activateFlyWheels()
+    {
+        return packet -> {
+            leftFlyWheel.setPower(-0.63);
+            rightFlyWheel.setPower(0.63);
             return false;
         };
     }
