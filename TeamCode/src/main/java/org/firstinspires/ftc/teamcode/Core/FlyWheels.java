@@ -92,6 +92,8 @@ public class FlyWheels {
         if (overrideY) {
             motorSpinOut();
             spinTargetRPM(maxRPM);
+            F = 1.4;
+            P = 1;
             return;
         }
 
@@ -99,6 +101,9 @@ public class FlyWheels {
         if (rightBumper) {
             motorSpinOut();
             spinTargetRPM(targetRPM);
+            F = 1.2;
+            P = 0.9;
+
         } else if (leftBumper) {
             motorSpinIn();
             spinTargetRPM(targetRPM);
@@ -130,12 +135,6 @@ public class FlyWheels {
         leftFly.setPower(0.0);
         rightFly.setPower(0.0);
     }
-
-    // 0.9 P
-// 1.2 F
-// close shoooting
-
-//
 
     /**
      * Publish flywheel telemetry to the driver station.
