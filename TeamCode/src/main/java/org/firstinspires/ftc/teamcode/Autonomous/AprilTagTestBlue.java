@@ -45,7 +45,7 @@ public class AprilTagTestBlue extends LinearOpMode {
                     .stopAndAdd(shootFrontIntake())
                     .waitSeconds(2)
                     .stopAndAdd(stopAll())
-                    .strafeToLinearHeading(new Vector2d(-52,0),Math.toRadians(180))
+                    .strafeToLinearHeading(new Vector2d(-54,0),Math.toRadians(180))
                     .build();
 
             Actions.runBlocking(new SequentialAction(launchSequence));
@@ -68,22 +68,47 @@ public class AprilTagTestBlue extends LinearOpMode {
         }
     }
     private int detectTagByPipelines() {
-        limelight.pipelineSwitch(7);
-        sleep(200);
-        LLResult p7 = limelight.getLatestResult();
-        if (p7 != null && p7.isValid()) return 21;
+        int[] pipelines = {7, 8, 9};
+        int[] tags = {21, 22, 23};
 
-        limelight.pipelineSwitch(8);
-        sleep(200);
-        LLResult p8 = limelight.getLatestResult();
-        if (p8 != null && p8.isValid()) return 22;
+        for (int i = 0; i < pipelines.length; i++) {
+            limelight.pipelineSwitch(pipelines[i]);
+            sleep(500);
+            limelight.getLatestResult();
+            sleep(100);
+            LLResult result = limelight.getLatestResult();
 
-        limelight.pipelineSwitch(9);
-        sleep(200);
-        LLResult p9 = limelight.getLatestResult();
-        if (p9 != null && p9.isValid()) return 23;
+            if (result != null && result.isValid() && result.getTa() > 0.1) {
+                telemetry.addData("Tag found on pipeline", pipelines[i]);
+                telemetry.addData("Target Area (ta)", result.getTa());
+                telemetry.update();
+                return tags[i];
+            } else {
+                telemetry.addData("Pipeline " + pipelines[i], "No valid target");
+                telemetry.update();
+            }
+        }
+        telemetry.addData("No tag detected", "Defaulting to 23");
+        telemetry.update();
         return 23;
     }
+//    private int detectTagByPipelines() {
+//        limelight.pipelineSwitch(7);
+//        sleep(200);
+//        LLResult p7 = limelight.getLatestResult();
+//        if (p7 != null && p7.isValid()) return 21;
+//
+//        limelight.pipelineSwitch(8);
+//        sleep(200);
+//        LLResult p8 = limelight.getLatestResult();
+//        if (p8 != null && p8.isValid()) return 22;
+//
+//        limelight.pipelineSwitch(9);
+//        sleep(200);
+//        LLResult p9 = limelight.getLatestResult();
+//        if (p9 != null && p9.isValid()) return 23;
+//        return 23;
+//    }
     public Action shootFrontIntake() {
         return packet -> {
             launcherWheel.setPower(-1.0);
