@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Core.FlyWheels;
 import org.firstinspires.ftc.teamcode.Core.FrontIntake;
 import org.firstinspires.ftc.teamcode.Core.LauncherWheel;
 
+
 @TeleOp(name="Decode2025", group="TeleOp")
 public class Decode2025 extends LinearOpMode {
 
@@ -19,6 +20,7 @@ public class Decode2025 extends LinearOpMode {
     public FrontIntake frontIntake;
 
     private static final float STICK_DEADZONE = 0.08f;
+    private long yPressedTime = 0;
 
     @Override
     public void runOpMode() {
@@ -41,7 +43,6 @@ public class Decode2025 extends LinearOpMode {
                 hardwareMap.get(DcMotorEx.class, "rightFly")
         );
 
-        // Init all subsystems
         launcherWheel.init();
         flyWheels.init();
         frontIntake.init();
@@ -54,16 +55,35 @@ public class Decode2025 extends LinearOpMode {
         while (opModeIsActive()) {
 
 
-
             driveTrain.Drive(gamepad1);
 
             float leftStick  = applyDeadzone(gamepad2.left_stick_y, STICK_DEADZONE);
             float rightStick = applyDeadzone(gamepad2.right_stick_y, STICK_DEADZONE);
 
             boolean overrideAll = gamepad2.y;
+            boolean shootPressed = gamepad2.a;
 
-            launcherWheel.update(gamepad2.b, overrideAll, gamepad2.a);
+            if (overrideAll && yPressedTime == 0) {
+                yPressedTime = System.currentTimeMillis();
+            } else if (!overrideAll) {
+                yPressedTime = 0;
+            }
 
+            boolean launcherAndIntakeReady = overrideAll &&
+                    yPressedTime != 0 &&
+                    System.currentTimeMillis() - yPressedTime >= 500;
+            if (shootPressed) {
+                launcherWheel.stop();
+            } else if (launcherAndIntakeReady) {
+                launcherWheel.setPower(-1.0);
+            } else {
+                launcherWheel.setPower(-0.10);
+            }
+            if (overrideAll) {
+                frontIntake.update(1f, false);
+            } else {
+                frontIntake.update(gamepad2.right_stick_y, gamepad2.a);
+            }
             flyWheels.update(
                     gamepad2.right_bumper,
                     gamepad2.left_bumper,
@@ -71,18 +91,10 @@ public class Decode2025 extends LinearOpMode {
                     overrideAll
             );
 
-            if (gamepad2.dpad_up)   flyWheels.adjustTargetRPM(20);
-            if (gamepad2.dpad_down) flyWheels.adjustTargetRPM(-20);
-            if (gamepad2.dpad_left || gamepad2.dpad_right) flyWheels.setTargetRPM(flyWheels.TARGET_RPM);
-
-            frontIntake.update(gamepad2.right_stick_y, gamepad2.a);
-
-
             telemetry.update();
-
+            flyWheels.getVelocityAndError(telemetry);
             flyWheels.publishTelemetry(telemetry);
 
-            sleep(10);
         }
     }
 

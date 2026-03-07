@@ -97,6 +97,7 @@ public class FlyWheels {
             return;
         }
 
+//         Normal bumper-driven control (existing-style)
         if (rightBumper) {
             motorSpinOut();
             spinTargetRPM(targetRPM);
@@ -106,9 +107,9 @@ public class FlyWheels {
         } else if (leftBumper) {
             motorSpinIn();
             spinTargetRPM(targetRPM);
-
         } else {
-            stop();
+            leftFly.setPower(0.0);
+            rightFly.setPower(0.0);
         }
     }
 
@@ -176,65 +177,60 @@ public class FlyWheels {
         targetRPM = Math.max(600, Math.min(1620, targetRPM));
     }
 
-   public void setTargetRPM(double rpm) {
+    public void setTargetRPM(double rpm) {
         targetRPM = rpm;
-   }
+    }
 
-   public void toggleVelocities(){
+    public void toggleVelocities(){
         if(currTargetVelocity == highVelocity){
             currTargetVelocity = lowVelocity;
         } else {
             currTargetVelocity = highVelocity;
         }
-   }
-
-   public void changeStepIndex(){
-        stepIndex = (stepIndex + 1) % stepSizes.length;
-   }
-
-   public void incrF(){
-        F += stepSizes[stepIndex];
-   }
-
-   public void decrF(){
-        F -= stepSizes[stepIndex];
-   }
-
-   public void incrP(){
-        P += stepSizes[stepIndex];
-
-   }
-
-   public void decrP(){
-        P -= stepSizes[stepIndex];
-   }
-
-   public void updateFlywheelChanges(Telemetry telemetry){
-       motorSpinOut();
-
-       PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
-       leftFly.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
-       rightFly.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
-
-       rightFly.setVelocity(currTargetVelocity);
-       leftFly.setVelocity(currTargetVelocity);
-   }
-
-    public boolean isAtSpeed() {
-        double currVelocity = (leftFly.getVelocity() + Math.abs(rightFly.getVelocity())) / 2;
-        return Math.abs(currTargetVelocity - currVelocity) < 50;
     }
 
-   public void getVelocityAndError(Telemetry telemetry){
-       double currVelocity = (leftFly.getVelocity() + Math.abs(rightFly.getVelocity()))/2;
-       telemetry.addData("Current Velocity", String.format("%.3f", currVelocity));
-       double error = (currTargetVelocity - currVelocity);
-       telemetry.addData("Error", String.format("%.0f", error));
-       telemetry.addData("Target Velocity", String.format("%.3f", currTargetVelocity));
-       telemetry.addData("Tuning P", String.format("%.3f", P));
-       telemetry.addData("Tuning F", String.format("%.3f", F));
-       telemetry.addData("Step Size", String.format("%.3f", stepSizes[stepIndex]));
-   }
+    public void changeStepIndex(){
+        stepIndex = (stepIndex + 1) % stepSizes.length;
+    }
+
+    public void incrF(){
+        F += stepSizes[stepIndex];
+    }
+
+    public void decrF(){
+        F -= stepSizes[stepIndex];
+    }
+
+    public void incrP(){
+        P += stepSizes[stepIndex];
+
+    }
+
+    public void decrP(){
+        P -= stepSizes[stepIndex];
+    }
+
+    public void updateFlywheelChanges(Telemetry telemetry){
+        motorSpinOut();
+
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
+        leftFly.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+        rightFly.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+
+        rightFly.setVelocity(currTargetVelocity);
+        leftFly.setVelocity(currTargetVelocity);
+    }
+
+    public void getVelocityAndError(Telemetry telemetry){
+        double currVelocity = (leftFly.getVelocity() + Math.abs(rightFly.getVelocity()))/2;
+        telemetry.addData("Current Velocity", String.format("%.3f", currVelocity));
+        double error = (currTargetVelocity - currVelocity);
+        telemetry.addData("Error", String.format("%.0f", error));
+        telemetry.addData("Target Velocity", String.format("%.3f", currTargetVelocity));
+        telemetry.addData("Tuning P", String.format("%.3f", P));
+        telemetry.addData("Tuning F", String.format("%.3f", F));
+        telemetry.addData("Step Size", String.format("%.3f", stepSizes[stepIndex]));
+    }
 
     public void changeHighVelocity(int increment){
         highVelocity += increment;
