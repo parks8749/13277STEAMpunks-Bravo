@@ -49,4 +49,10 @@ public class LauncherWheel {
         toggledB = false;
         launcherWheel.setPower(0.0);
     }
+
+    public void setPower(double level){
+        launcherWheel.setPower(level);
+    }
+
+
 }

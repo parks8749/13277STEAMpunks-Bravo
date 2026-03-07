@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+
 import org.firstinspires.ftc.teamcode.Core.DriveTrain;
 import org.firstinspires.ftc.teamcode.Core.FlyWheels;
 import org.firstinspires.ftc.teamcode.Core.FrontIntake;
@@ -36,8 +38,8 @@ public class Decode2025 extends LinearOpMode {
         );
 
         flyWheels = new FlyWheels(
-                hardwareMap.get(DcMotor.class, "leftFly"),
-                hardwareMap.get(DcMotor.class, "rightFly")
+                hardwareMap.get(DcMotorEx.class, "leftFly"),
+                hardwareMap.get(DcMotorEx.class, "rightFly")
         );
 
         launcherWheel.init();
@@ -50,6 +52,40 @@ public class Decode2025 extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
+            // testing for PIDF values
+            if(gamepad1.xWasPressed()){
+                flyWheels.changeHighVelocity(10);
+            }
+
+            if(gamepad1.yWasPressed()){
+                flyWheels.toggleVelocities();
+                flyWheels.updateFlywheelChanges(telemetry);
+            }
+
+            if(gamepad1.bWasPressed()){
+                flyWheels.changeStepIndex();
+                flyWheels.updateFlywheelChanges(telemetry);
+            }
+
+            if(gamepad1.dpadLeftWasPressed()){
+                flyWheels.incrF();
+                flyWheels.updateFlywheelChanges(telemetry);
+            }
+
+            if(gamepad1.dpadRightWasPressed()){
+                flyWheels.decrF();
+                flyWheels.updateFlywheelChanges(telemetry);
+            }
+
+            if(gamepad1.dpadUpWasPressed()){
+                flyWheels.incrP();
+                flyWheels.updateFlywheelChanges(telemetry);
+            }
+
+            if(gamepad1.dpadDownWasPressed()){
+                flyWheels.decrP();
+                flyWheels.updateFlywheelChanges(telemetry);
+            }
 
             driveTrain.Drive(gamepad1);
 
@@ -90,6 +126,8 @@ public class Decode2025 extends LinearOpMode {
             if (gamepad2.dpad_up)   flyWheels.adjustTargetRPM(20);
             if (gamepad2.dpad_down) flyWheels.adjustTargetRPM(-20);
             if (gamepad2.dpad_left || gamepad2.dpad_right) flyWheels.setTargetRPM(flyWheels.TARGET_RPM);
+
+            flyWheels.getVelocityAndError(telemetry);
 
             telemetry.update();
 

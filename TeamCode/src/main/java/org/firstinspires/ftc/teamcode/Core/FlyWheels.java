@@ -74,18 +74,16 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotor.RunMode;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class FlyWheels {
 
-    private DcMotor leftFly;
-    private DcMotor rightFly;
+    private DcMotorEx leftFly;
+    private DcMotorEx rightFly;
 
-    // optional enhanced interface (may be null on some hardware)
-    private final DcMotorEx leftFlyEx;
-    private final DcMotorEx rightFlyEx;
 
     // default (current) operating power
     private static final double DEFAULT_POWER = 1.0;
@@ -117,14 +115,22 @@ public class FlyWheels {
     private long lastTimeMs = 0;
     private final ElapsedTime clock = new ElapsedTime();
 
+    public double highVelocity = 1000;
+    public double lowVelocity = 500;
 
-    public FlyWheels(DcMotor leftFly, DcMotor rightFly) {
+    double currTargetVelocity = highVelocity;
+
+    double F = 1.6;
+    double P = 1.0;
+
+    double[] stepSizes = {10.0, 1.0, 0.1, 0.001};
+
+    int stepIndex = 1;
+
+
+    public FlyWheels(DcMotorEx leftFly, DcMotorEx rightFly) {
         this.leftFly  = leftFly;
         this.rightFly = rightFly;
-
-        // try to get the enhanced interface; may be null on some controllers
-        this.leftFlyEx  = (leftFly  instanceof DcMotorEx) ? (DcMotorEx) leftFly  : null;
-        this.rightFlyEx = (rightFly instanceof DcMotorEx) ? (DcMotorEx) rightFly : null;
     }
 
 
@@ -152,10 +158,10 @@ public class FlyWheels {
         double maxTicksPerSec = (maxRPM * TICKS_PER_REV) / 60.0;
         kF = 32767.0 / maxTicksPerSec;
 
-        if (leftFlyEx != null && rightFlyEx != null) {
-            leftFlyEx.setVelocityPIDFCoefficients(kP, kI, kD, kF);
-            rightFlyEx.setVelocityPIDFCoefficients(kP, kI, kD, kF);
-        }
+//        if (leftFly != null && rightFly != null) {
+//            leftFly.setVelocityPIDFCoefficients(kP, kI, kD, kF);
+//            rightFly.setVelocityPIDFCoefficients(kP, kI, kD, kF);
+//        }
     }
 
     /**
@@ -207,15 +213,21 @@ public class FlyWheels {
     public void spinTargetRPM(double targetRPM){
         double targetTicks = rpmToTicks(targetRPM);
 
-        if (leftFlyEx != null && rightFlyEx != null) {
-            leftFlyEx.setVelocity(targetTicks);
-            rightFlyEx.setVelocity(targetTicks);
+        if (leftFly != null && rightFly != null) {
+            leftFly.setVelocity(targetTicks);
+            rightFly.setVelocity(targetTicks);
         }
     }
     public void stop() {
         leftFly.setPower(0.0);
         rightFly.setPower(0.0);
     }
+
+    // 0.9 P
+// 1.2 F
+// close shoooting
+
+//
 
     /**
      * Publish flywheel telemetry to the driver station.
@@ -226,10 +238,10 @@ public class FlyWheels {
         double leftTicksPerSec;
         double rightTicksPerSec;
 
-        if (leftFlyEx != null && rightFlyEx != null) {
+        if (leftFly != null && rightFly != null) {
             // DcMotorEx.getVelocity() returns ticks per second by default
-            leftTicksPerSec  = leftFlyEx.getVelocity();
-            rightTicksPerSec = rightFlyEx.getVelocity();
+            leftTicksPerSec  = leftFly.getVelocity();
+            rightTicksPerSec = rightFly.getVelocity();
         } else {
             // fallback: compute ticks/sec by delta on current position (less smooth, but works)
             long nowMs = System.currentTimeMillis();
@@ -247,31 +259,21 @@ public class FlyWheels {
             lastTimeMs = nowMs;
         }
 
-        // get ticks-per-rev from the configured motor type (works even if unspecified)
-        double leftTicksPerRev  =103.8;
-        double rightTicksPerRev = 103.8;
+//        // get ticks-per-rev from the configured motor type (works even if unspecified)
+//        double leftTicksPerRev  =103.8;
+//        double rightTicksPerRev = 103.8;
+//
+//        // avoid divide-by-zero if something is misconfigured
+//        if (leftTicksPerRev <= 0.0) leftTicksPerRev = 1.0;
+//        if (rightTicksPerRev <= 0.0) rightTicksPerRev = 1.0;
+//
+//        // convert to RPM
+//        double leftRPM  = (leftTicksPerSec  / leftTicksPerRev)  * 60.0;
+//        if (leftRPM > leftMaxVelocity) leftMaxVelocity = leftRPM;
+//
+//        double rightRPM = (rightTicksPerSec / rightTicksPerRev) * 60.0;
+//        if (rightRPM > rightMaxVelocity) rightMaxVelocity = rightRPM;
 
-        // avoid divide-by-zero if something is misconfigured
-        if (leftTicksPerRev <= 0.0) leftTicksPerRev = 1.0;
-        if (rightTicksPerRev <= 0.0) rightTicksPerRev = 1.0;
-
-        // convert to RPM
-        double leftRPM  = (leftTicksPerSec  / leftTicksPerRev)  * 60.0;
-        if (leftRPM > leftMaxVelocity) leftMaxVelocity = leftRPM;
-
-        double rightRPM = (rightTicksPerSec / rightTicksPerRev) * 60.0;
-        if (rightRPM > rightMaxVelocity) rightMaxVelocity = rightRPM;
-
-
-        telemetry.addData("FlyLeft (RPM)", String.format("%.1f", leftRPM));
-        telemetry.addData("FlyLeft (ticks/s)", String.format("%.0f", leftTicksPerSec));
-        telemetry.addData("FlyRight (Max)", String.format("%.0f", leftMaxVelocity));
-
-        telemetry.addData("FlyRight(RPM)", String.format("%.1f", rightRPM));
-        telemetry.addData("FlyRight(ticks/s)", String.format("%.0f", rightTicksPerSec));
-        telemetry.addData("FlyRight (Max)", String.format("%.0f", rightMaxVelocity));
-
-        telemetry.addData("Target RPM", String.format("%.0f", targetRPM));
     }
 
     private double rpmToTicks(double rpm){
@@ -286,4 +288,61 @@ public class FlyWheels {
    public void setTargetRPM(double rpm) {
         targetRPM = rpm;
    }
+
+   public void toggleVelocities(){
+        if(currTargetVelocity == highVelocity){
+            currTargetVelocity = lowVelocity;
+        } else {
+            currTargetVelocity = highVelocity;
+        }
+   }
+
+   public void changeStepIndex(){
+        stepIndex = (stepIndex + 1) % stepSizes.length;
+   }
+
+   public void incrF(){
+        F += stepSizes[stepIndex];
+   }
+
+   public void decrF(){
+        F -= stepSizes[stepIndex];
+   }
+
+   public void incrP(){
+        P += stepSizes[stepIndex];
+
+   }
+
+   public void decrP(){
+        P -= stepSizes[stepIndex];
+   }
+
+   public void updateFlywheelChanges(Telemetry telemetry){
+       motorSpinOut();
+
+       PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
+       leftFly.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+       rightFly.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+
+       rightFly.setVelocity(currTargetVelocity);
+       leftFly.setVelocity(currTargetVelocity);
+   }
+
+   public void getVelocityAndError(Telemetry telemetry){
+       double currVelocity = (leftFly.getVelocity() + Math.abs(rightFly.getVelocity()))/2;
+       telemetry.addData("Current Velocity", String.format("%.3f", currVelocity));
+       double error = (currTargetVelocity - currVelocity);
+       telemetry.addData("Error", String.format("%.0f", error));
+       telemetry.addData("Target Velocity", String.format("%.3f", currTargetVelocity));
+       telemetry.addData("Tuning P", String.format("%.3f", P));
+       telemetry.addData("Tuning F", String.format("%.3f", F));
+       telemetry.addData("Step Size", String.format("%.3f", stepSizes[stepIndex]));
+   }
+
+    public void changeHighVelocity(int increment){
+        highVelocity += increment;
+    }
+
+
 }
