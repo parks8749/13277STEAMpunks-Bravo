@@ -28,19 +28,19 @@ public class AprilTag23Red {
         // Build trajectory
         Action path = drive.actionBuilder(beginPose)
                 //ppg red
-                .strafeToLinearHeading(new Vector2d(-11, 28), Math.toRadians(92))
+                .strafeToLinearHeading(new Vector2d(-9, 28), Math.toRadians(92))
                 .stopAndAdd(intakeStack())
-                .strafeTo(new Vector2d(-11,55))
-                .strafeTo(new Vector2d(-11,40))
+                .strafeTo(new Vector2d(-9,60))
+                .strafeTo(new Vector2d(-9,40))
                 .stopAndAdd(activateFlyWheels())
                 .strafeToLinearHeading(new Vector2d(-40, 34), Math.toRadians(128))
                 .stopAndAdd(shootFrontIntake())
                 .waitSeconds(2)
                 .stopAndAdd(stopAll())
-                .strafeToLinearHeading(new Vector2d(12, 25), Math.toRadians(92))
+                .strafeToLinearHeading(new Vector2d(14, 25), Math.toRadians(92))
                 .stopAndAdd(intakeStack())
-                .strafeTo(new Vector2d(12,51))
-                .strafeTo(new Vector2d(12,45))
+                .strafeTo(new Vector2d(14,55))
+                .strafeTo(new Vector2d(14,45))
                 .stopAndAdd(activateFlyWheels())
                 .strafeToLinearHeading(new Vector2d(-40,34), Math.toRadians(128))
                 .stopAndAdd(shootFrontIntake())
@@ -65,7 +65,6 @@ public class AprilTag23Red {
     public Action intakeStack() {
         return packet -> {
             frontIntake.setPower(1.0);
-            launcherWheel.setPower(1.0);
             return false;
         };
     }
