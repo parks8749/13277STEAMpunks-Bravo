@@ -23,29 +23,31 @@ public class AprilTag21Red {
         rightFlyWheel = opMode.hardwareMap.get(DcMotor.class, "rightFly");
         frontIntake = opMode.hardwareMap.get(DcMotor.class, "FrontIntake");
 
-        Pose2d beginPose = new Pose2d(new Vector2d(-47, 0), Math.toRadians(232));
+        Pose2d beginPose = new Pose2d(new Vector2d(-47, 0), Math.toRadians(128)); //change heading for all
         MecanumDrive drive = new MecanumDrive(opMode.hardwareMap, beginPose);
 
         // Build trajectory
         Action path = drive.actionBuilder(beginPose)
                 //GPP Red
-                .splineToLinearHeading(new Pose2d(35.4, 24, Math.toRadians(90)), Math.toRadians(90))
-                .strafeTo(new Vector2d(35.4,60))
+                .strafeToLinearHeading(new Vector2d(36, 30), Math.toRadians(92))
                 .stopAndAdd(intakeStack())
-                .waitSeconds(5)
-                .strafeTo(new Vector2d(35.4,24))
-                .splineToLinearHeading(new Pose2d(-46, 39, Math.toRadians(135)), Math.toRadians(120))
+                .strafeTo(new Vector2d(36,55))
+                .strafeTo(new Vector2d(36,10))
+                .stopAndAdd(activateFlyWheels())
+                .strafeToLinearHeading(new Vector2d(-40,34), Math.toRadians(128))
                 .stopAndAdd(shootFrontIntake())
-                .waitSeconds(5)
+                .waitSeconds(2)
                 .stopAndAdd(stopAll())
-                .strafeToLinearHeading(new Vector2d(-12,24), Math.toRadians(90))
-                .strafeTo(new Vector2d(-12,53))
+                .strafeToLinearHeading(new Vector2d(-11, 28), Math.toRadians(92))
                 .stopAndAdd(intakeStack())
-                .waitSeconds(5)
-                .strafeToLinearHeading(new Vector2d(-46, 39), Math.toRadians(135))
+                .strafeTo(new Vector2d(-11,55))
+                .strafeTo(new Vector2d(-11,40))
+                .stopAndAdd(activateFlyWheels())
+                .strafeToLinearHeading(new Vector2d(-40, 34), Math.toRadians(128))
                 .stopAndAdd(shootFrontIntake())
+                .waitSeconds(2)
                 .stopAndAdd(stopAll())
-                .strafeTo(new Vector2d(-59,37))
+                .strafeTo(new Vector2d(-56,34))
                 .build();
 
         Actions.runBlocking(new SequentialAction(path));
@@ -83,6 +85,14 @@ public class AprilTag21Red {
             frontIntake.setPower(0);
             leftFlyWheel.setPower(0.0);
             rightFlyWheel.setPower(0.0);
+            return false;
+        };
+    }
+    public Action activateFlyWheels()
+    {
+        return packet -> {
+            leftFlyWheel.setPower(-0.63);
+            rightFlyWheel.setPower(0.63);
             return false;
         };
     }

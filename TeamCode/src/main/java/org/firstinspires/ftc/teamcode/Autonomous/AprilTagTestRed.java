@@ -42,7 +42,7 @@ public class AprilTagTestRed extends LinearOpMode {
         rightFlyWheel = hardwareMap.get(DcMotor.class, "rightFly");
         frontIntake = hardwareMap.get(DcMotor.class, "FrontIntake");
 
-        Pose2d beginPose = new Pose2d(new Vector2d(-53, 47), Math.toRadians(126));
+        Pose2d beginPose = new Pose2d(new Vector2d(-53, 47), Math.toRadians(128));
         MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
 
         telemetry.addData("Status", "Initialized");
