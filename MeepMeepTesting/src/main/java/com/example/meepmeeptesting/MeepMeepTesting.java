@@ -18,34 +18,36 @@ public class MeepMeepTesting {
 
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-53, -47, Math.toRadians(232)))
-                .strafeTo(new Vector2d(-46,-39))
+
+
+
+//                .stopAndAdd(activateFlyWheels())
+                .strafeTo(new Vector2d(-40,-34))
 //                .stopAndAdd(shootFrontIntake())
-//                .waitSeconds(5)
+//                .waitSeconds(2)
 //                .stopAndAdd(stopAll())
 
-                .strafeToLinearHeading(new Vector2d(-11.5,-22), Math.toRadians(272))
+
+
+                .strafeToLinearHeading(new Vector2d(3, -10), Math.toRadians(270))
 //                .stopAndAdd(intakeStack())
-                .strafeTo(new Vector2d(-11.5,-55))
-                .strafeToLinearHeading(new Vector2d(-46,-39), Math.toRadians(232))
-
-
-
-
-
-                // starting position and heading for close auto
-                // (-53, -47, Math.toRadians(232))
-                // (x, y, heading) for first spike mark
-                // (-11.5, -22, Math.toRadians(272))
-                // (x, y, heading) for second spike mark
-                // (12, -26, Math.toRadians(272))
-                // (x, y, heading) for third spike mark
-                // (35, -26, Math.toRadians(272))
-
-                // starting position and heading for far auto
-                // (62, -16, Math.toRadians(180))
-
-
-
+                .strafeTo(new Vector2d(3,-45))
+                .strafeTo(new Vector2d(3,-40))
+//                .stopAndAdd(activateFlyWheels())
+                .strafeToLinearHeading(new Vector2d(-40, -34), Math.toRadians(232))
+//                .stopAndAdd(shootFrontIntake())
+//                .waitSeconds(2)
+//                .stopAndAdd(stopAll())
+                .strafeToLinearHeading(new Vector2d(30, -5), Math.toRadians(270))
+//                .stopAndAdd(intakeStack())
+                .strafeTo(new Vector2d(30,-50))
+                .strafeTo(new Vector2d(30,-30))
+//                .stopAndAdd(activateFlyWheels())
+                .strafeToLinearHeading(new Vector2d(-40,-34), Math.toRadians(232))
+//                .stopAndAdd(shootFrontIntake())
+//                .waitSeconds(2)
+//                .stopAndAdd(stopAll())
+                .strafeTo(new Vector2d(-56,-34))
                 .build());
 
 

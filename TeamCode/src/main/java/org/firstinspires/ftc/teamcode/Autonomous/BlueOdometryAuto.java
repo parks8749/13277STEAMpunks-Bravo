@@ -53,26 +53,26 @@ public class BlueOdometryAuto extends LinearOpMode {
                 .stopAndAdd(shootFrontIntake())
                 .waitSeconds(2)
                 .stopAndAdd(stopAll())
-                .strafeToLinearHeading(new Vector2d(-54,0),Math.toRadians(180))
 
 
 
-                .strafeToLinearHeading(new Vector2d(50, -15), Math.toRadians(272))
+                .strafeToLinearHeading(new Vector2d(1, -10), Math.toRadians(270))
                 .stopAndAdd(intakeStack())
-                .strafeTo(new Vector2d(50,-55))
-                .strafeTo(new Vector2d(50,-15))
+                .strafeTo(new Vector2d(1,-45))
+                .strafeTo(new Vector2d(1,-40))
+                .stopAndAdd(activateFlyWheels())
+                .strafeToLinearHeading(new Vector2d(-40, -34), Math.toRadians(232))
+                .stopAndAdd(shootFrontIntake())
+                .waitSeconds(2)
+                .stopAndAdd(stopAll())
+                .strafeToLinearHeading(new Vector2d(35, -5), Math.toRadians(270))
+                .stopAndAdd(intakeStack())
+                .strafeTo(new Vector2d(35,-50))
+                .strafeTo(new Vector2d(35,-30))
                 .stopAndAdd(activateFlyWheels())
                 .strafeToLinearHeading(new Vector2d(-40,-34), Math.toRadians(232))
                 .stopAndAdd(shootFrontIntake())
                 .waitSeconds(2)
-                .stopAndAdd(stopAll())
-                .strafeToLinearHeading(new Vector2d(0,-10), Math.toRadians(272))
-                .stopAndAdd(intakeStack())
-                .strafeTo(new Vector2d(0,-50))
-                .strafeTo(new Vector2d(0,-30))
-                .stopAndAdd(activateFlyWheels())
-                .strafeToLinearHeading(new Vector2d(-40, -34), Math.toRadians(232))
-                .stopAndAdd(shootFrontIntake())
                 .stopAndAdd(stopAll())
                 .strafeTo(new Vector2d(-56,-34))
                 .build();
@@ -83,8 +83,8 @@ public class BlueOdometryAuto extends LinearOpMode {
 public Action shootFrontIntake() {
     return packet -> {
         launcherWheel.setPower(-1.0);
-        leftFlyWheel.setPower(-.7);
-        rightFlyWheel.setPower(.7);
+        leftFlyWheel.setPower(-.5);
+        rightFlyWheel.setPower(.5);
         frontIntake.setPower(-1.0);
         return false;
     };
@@ -117,8 +117,8 @@ public Action shootFrontIntake() {
     public Action activateFlyWheels()
     {
         return packet -> {
-            leftFlyWheel.setPower(-0.7);
-            rightFlyWheel.setPower(0.7);
+            leftFlyWheel.setPower(-0.5);
+            rightFlyWheel.setPower(0.5);
             return false;
         };
     }
